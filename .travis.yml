@@ -7,5 +7,6 @@ language: objective-c
 
 before_install:
 - bash setup.sh
+- git remote set-url origin "https://${GITHUB_TOKEN}@github.com/pietrocaselani/Trakt-Swift.git"
 script:
 - bundle exec fastlane lint
