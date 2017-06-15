@@ -1,6 +1,6 @@
 # Trakt
 
-[![CI Status](http://img.shields.io/travis/pietrocaselani/Trakt-Swift/Trakt.svg?style=flat)](https://travis-ci.org/pietrocaselani/Trakt-Swift/Trakt)
+[![CI Status](https://img.shields.io/travis/pietrocaselani/Trakt-Swift/Trakt-Swift.svg?style=flat)](https://travis-ci.org/pietrocaselani/Trakt-Swift)
 [![Version](https://img.shields.io/cocoapods/v/Trakt.svg?style=flat)](http://cocoapods.org/pods/Trakt)
 [![License](https://img.shields.io/cocoapods/l/Trakt.svg?style=flat)](http://cocoapods.org/pods/Trakt)
 [![Platform](https://img.shields.io/cocoapods/p/Trakt.svg?style=flat)](http://cocoapods.org/pods/Trakt)
