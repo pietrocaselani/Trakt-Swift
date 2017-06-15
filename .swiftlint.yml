@@ -1,0 +1,6 @@
+included:
+  - Example
+  - Trakt
+
+excluded:
+  - Example/Pods

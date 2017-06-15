@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Trakt_Example' do
+  pod 'Trakt', :path => '../'
+
+  target 'Trakt_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
