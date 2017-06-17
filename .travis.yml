@@ -10,5 +10,4 @@ before_install:
 - bash setup.sh
 - git remote set-url origin "https://${GITHUB_TOKEN}@github.com/pietrocaselani/Trakt-Swift.git"
 script:
-- if [ "$TRAVIS_BRANCH" = "master" ]; then ./ci/master.sh; fi
-- if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./ci/pull_request.sh; fi
+- if [ "$TRAVIS_BRANCH" = "master" ]; then ./ci/master.sh; elif [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./ci/pull_request.sh; fi
