@@ -4,14 +4,14 @@ end
 
 lane :tests do
 	pods
-	scan(workspace: "Example/Trakt.xcworkspace", scheme: "Trakt-Example", clean: true, devices: ["iPhone 5"])
+	scan(workspace: "Example/Trakt.xcworkspace", scheme: "Trakt-Example", clean: true, code_coverage: true, output_directory: "./reports/", devices: ["iPhone 5"])
 end
 
 desc "Run all tests and linters"
 lane :lint do
 	tests
 	pod_lib_lint(allow_warnings: false, verbose: false)
-	slather(cobertura_xml: true, travis: true, scheme: "Trakt-Example", build_directory: "Example/Build", output_directory: "./reports", proj: "Example/Trakt.xcodeproj", workspace: "Example/Trakt.xcworkspace")
+	slather(cobertura_xml: true, travis: true, scheme: "Trakt-Example", output_directory: "./reports", proj: "Example/Trakt.xcodeproj", workspace: "Example/Trakt.xcworkspace")
     sh("cd .. && lizard ./Example -l swift --xml > ./reports/lizard-report.xml")
     swiftlint(output_file: "./reports/swiftlint.txt", ignore_exit_status: true)
 end
