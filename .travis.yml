@@ -6,8 +6,7 @@ osx_image: xcode8.3
 language: objective-c
 
 before_install:
-- if [ "$TRAVIS_BRANCH" != "master" ]; then exit 0; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then exit 0; fi
+- if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then exit 0; fi
 - bash setup.sh
 - git remote set-url origin "https://${GITHUB_TOKEN}@github.com/pietrocaselani/Trakt-Swift.git"
 script:
