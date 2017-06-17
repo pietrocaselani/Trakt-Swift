@@ -9,5 +9,6 @@ before_install:
 - bash setup.sh
 - git remote set-url origin "https://${GITHUB_TOKEN}@github.com/pietrocaselani/Trakt-Swift.git"
 script:
-- if [ "$TRAVIS_BRANCH" = "master" ]; then ./ci/pull_request.rb envdev.tld; fi
-- bundle exec fastlane lint
+- if [ "$TRAVIS_BRANCH" = "master" ]; then ./ci/master.sh envdev.tld; fi
+- if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./ci/pull_request.sh envdev.tld; fi
+
