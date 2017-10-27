@@ -7,26 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5AB766000F287B59AF255A30 /* Pods_Trakt_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED51B2F09F77F336BCAD9292 /* Pods_Trakt_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		64B801231FA39911004A6EEE /* JSONParsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B801221FA3990B004A6EEE /* JSONParsers.swift */; };
+		64B801241FA39911004A6EEE /* ShowsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B801161FA3990B004A6EEE /* ShowsTest.swift */; };
+		64B801351FA3A510004A6EEE /* trakt_episodes_summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B801191FA3990B004A6EEE /* trakt_episodes_summary.json */; };
+		64B801361FA3A510004A6EEE /* trakt_genres_movies.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011A1FA3990B004A6EEE /* trakt_genres_movies.json */; };
+		64B801371FA3A510004A6EEE /* trakt_genres_shows.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011B1FA3990B004A6EEE /* trakt_genres_shows.json */; };
+		64B801381FA3A510004A6EEE /* trakt_search_textquery.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011C1FA3990B004A6EEE /* trakt_search_textquery.json */; };
+		64B801391FA3A510004A6EEE /* trakt_shows_summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011D1FA3990B004A6EEE /* trakt_shows_summary.json */; };
+		64B8013A1FA3A510004A6EEE /* trakt_shows_trending.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011E1FA3990B004A6EEE /* trakt_shows_trending.json */; };
+		64B8013B1FA3A510004A6EEE /* trakt_shows_watchedprogress.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011F1FA3990B004A6EEE /* trakt_shows_watchedprogress.json */; };
+		64B8013C1FA3A510004A6EEE /* trakt_sync_watchedshows.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B801201FA3990B004A6EEE /* trakt_sync_watchedshows.json */; };
+		64B8013D1FA3A510004A6EEE /* trakt_users_settings.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B801211FA3990B004A6EEE /* trakt_users_settings.json */; };
 		7ACA200D80200D76C9A5E5EC /* Pods_Trakt_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5042808C17312594E309AB86 /* Pods_Trakt_Example.framework */; };
+		E0D5B636157E960E18B2A394 /* Pods_TraktTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BB5161DE48358C2D53AE51 /* Pods_TraktTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
+		64B8013F1FA3A587004A6EEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
-			remoteInfo = Trakt;
+			remoteGlobalIDString = 64B8012E1FA3A50A004A6EEE;
+			remoteInfo = TraktTestsResources;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		12E47DF8A5E9D8C08F80AA4C /* Pods-TraktTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraktTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D2C33C259154CF28E674C53 /* Pods-Trakt_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trakt_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trakt_Example/Pods-Trakt_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5042808C17312594E309AB86 /* Pods_Trakt_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trakt_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* Trakt_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trakt_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -35,16 +46,28 @@
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* Trakt_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Trakt_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		82CA716D4DA5ED10F675D1D8 /* Pods-Trakt_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trakt_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trakt_Tests/Pods-Trakt_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		915C8E0BB95B72C3E14B37D4 /* Pods-Trakt_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trakt_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trakt_Tests/Pods-Trakt_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		92847C9E724369AE8FAB96D4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		64B801091FA3989F004A6EEE /* UNLICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = UNLICENSE; path = ../UNLICENSE; sourceTree = "<group>"; };
+		64B8010E1FA398D7004A6EEE /* TraktTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TraktTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		64B801121FA398D7004A6EEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64B801161FA3990B004A6EEE /* ShowsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsTest.swift; sourceTree = "<group>"; };
+		64B801191FA3990B004A6EEE /* trakt_episodes_summary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_episodes_summary.json; sourceTree = "<group>"; };
+		64B8011A1FA3990B004A6EEE /* trakt_genres_movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_genres_movies.json; sourceTree = "<group>"; };
+		64B8011B1FA3990B004A6EEE /* trakt_genres_shows.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_genres_shows.json; sourceTree = "<group>"; };
+		64B8011C1FA3990B004A6EEE /* trakt_search_textquery.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_search_textquery.json; sourceTree = "<group>"; };
+		64B8011D1FA3990B004A6EEE /* trakt_shows_summary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_shows_summary.json; sourceTree = "<group>"; };
+		64B8011E1FA3990B004A6EEE /* trakt_shows_trending.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_shows_trending.json; sourceTree = "<group>"; };
+		64B8011F1FA3990B004A6EEE /* trakt_shows_watchedprogress.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_shows_watchedprogress.json; sourceTree = "<group>"; };
+		64B801201FA3990B004A6EEE /* trakt_sync_watchedshows.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_sync_watchedshows.json; sourceTree = "<group>"; };
+		64B801211FA3990B004A6EEE /* trakt_users_settings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_users_settings.json; sourceTree = "<group>"; };
+		64B801221FA3990B004A6EEE /* JSONParsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsers.swift; sourceTree = "<group>"; };
+		64B8012F1FA3A50A004A6EEE /* TraktTestsResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TraktTestsResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		64B801311FA3A50A004A6EEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6C2EFBF92968B79F8E47C777 /* Pods-TraktTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraktTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests.release.xcconfig"; sourceTree = "<group>"; };
 		C9204B814150B31DFB49F5FB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D5F399452A9E5AF02591717A /* Trakt.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Trakt.podspec; path = ../Trakt.podspec; sourceTree = "<group>"; };
 		D9DB8D400A394FB439F5D4AD /* Pods-Trakt_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trakt_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trakt_Example/Pods-Trakt_Example.release.xcconfig"; sourceTree = "<group>"; };
 		ED51B2F09F77F336BCAD9292 /* Pods_Trakt_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trakt_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5BB5161DE48358C2D53AE51 /* Pods_TraktTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TraktTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,11 +79,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE21AFB9204008FA782 /* Frameworks */ = {
+		64B8010B1FA398D7004A6EEE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AB766000F287B59AF255A30 /* Pods_Trakt_Tests.framework in Frameworks */,
+				E0D5B636157E960E18B2A394 /* Pods_TraktTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64B8012C1FA3A50A004A6EEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +102,7 @@
 			children = (
 				5042808C17312594E309AB86 /* Pods_Trakt_Example.framework */,
 				ED51B2F09F77F336BCAD9292 /* Pods_Trakt_Tests.framework */,
+				F5BB5161DE48358C2D53AE51 /* Pods_TraktTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -81,7 +112,8 @@
 			children = (
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for Trakt */,
-				607FACE81AFB9204008FA782 /* Tests */,
+				64B8010F1FA398D7004A6EEE /* TraktTests */,
+				64B801301FA3A50A004A6EEE /* TraktTestsResources */,
 				607FACD11AFB9204008FA782 /* Products */,
 				9C6BA3B8CFCBE0FA85308BE3 /* Pods */,
 				030CF63DA7C1D1030F9A886B /* Frameworks */,
@@ -92,7 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				607FACD01AFB9204008FA782 /* Trakt_Example.app */,
-				607FACE51AFB9204008FA782 /* Trakt_Tests.xctest */,
+				64B8010E1FA398D7004A6EEE /* TraktTests.xctest */,
+				64B8012F1FA3A50A004A6EEE /* TraktTestsResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,31 +151,49 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		607FACE81AFB9204008FA782 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
-				607FACE91AFB9204008FA782 /* Supporting Files */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		607FACE91AFB9204008FA782 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				607FACEA1AFB9204008FA782 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				64B801091FA3989F004A6EEE /* UNLICENSE */,
 				D5F399452A9E5AF02591717A /* Trakt.podspec */,
 				C9204B814150B31DFB49F5FB /* README.md */,
-				92847C9E724369AE8FAB96D4 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		64B8010F1FA398D7004A6EEE /* TraktTests */ = {
+			isa = PBXGroup;
+			children = (
+				64B801221FA3990B004A6EEE /* JSONParsers.swift */,
+				64B801181FA3990B004A6EEE /* JSONs */,
+				64B801161FA3990B004A6EEE /* ShowsTest.swift */,
+				64B801121FA398D7004A6EEE /* Info.plist */,
+			);
+			path = TraktTests;
+			sourceTree = "<group>";
+		};
+		64B801181FA3990B004A6EEE /* JSONs */ = {
+			isa = PBXGroup;
+			children = (
+				64B801191FA3990B004A6EEE /* trakt_episodes_summary.json */,
+				64B8011A1FA3990B004A6EEE /* trakt_genres_movies.json */,
+				64B8011B1FA3990B004A6EEE /* trakt_genres_shows.json */,
+				64B8011C1FA3990B004A6EEE /* trakt_search_textquery.json */,
+				64B8011D1FA3990B004A6EEE /* trakt_shows_summary.json */,
+				64B8011E1FA3990B004A6EEE /* trakt_shows_trending.json */,
+				64B8011F1FA3990B004A6EEE /* trakt_shows_watchedprogress.json */,
+				64B801201FA3990B004A6EEE /* trakt_sync_watchedshows.json */,
+				64B801211FA3990B004A6EEE /* trakt_users_settings.json */,
+			);
+			path = JSONs;
+			sourceTree = "<group>";
+		};
+		64B801301FA3A50A004A6EEE /* TraktTestsResources */ = {
+			isa = PBXGroup;
+			children = (
+				64B801311FA3A50A004A6EEE /* Info.plist */,
+			);
+			path = TraktTestsResources;
 			sourceTree = "<group>";
 		};
 		9C6BA3B8CFCBE0FA85308BE3 /* Pods */ = {
@@ -150,8 +201,8 @@
 			children = (
 				2D2C33C259154CF28E674C53 /* Pods-Trakt_Example.debug.xcconfig */,
 				D9DB8D400A394FB439F5D4AD /* Pods-Trakt_Example.release.xcconfig */,
-				82CA716D4DA5ED10F675D1D8 /* Pods-Trakt_Tests.debug.xcconfig */,
-				915C8E0BB95B72C3E14B37D4 /* Pods-Trakt_Tests.release.xcconfig */,
+				12E47DF8A5E9D8C08F80AA4C /* Pods-TraktTests.debug.xcconfig */,
+				6C2EFBF92968B79F8E47C777 /* Pods-TraktTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -180,27 +231,43 @@
 			productReference = 607FACD01AFB9204008FA782 /* Trakt_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		607FACE41AFB9204008FA782 /* Trakt_Tests */ = {
+		64B8010D1FA398D7004A6EEE /* TraktTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Trakt_Tests" */;
+			buildConfigurationList = 64B801131FA398D7004A6EEE /* Build configuration list for PBXNativeTarget "TraktTests" */;
 			buildPhases = (
-				5116B30D759A7EBDBDC9F0C8 /* [CP] Check Pods Manifest.lock */,
-				4FE6FA0F1EF31EBE00A0B707 /* SwiftLint */,
-				607FACE11AFB9204008FA782 /* Sources */,
-				607FACE21AFB9204008FA782 /* Frameworks */,
-				607FACE31AFB9204008FA782 /* Resources */,
-				8FCB681103BD2B912C9826C3 /* [CP] Embed Pods Frameworks */,
-				14F6C95A8F6DE4B9F13BD7ED /* [CP] Copy Pods Resources */,
+				6D3671F2B379BE7C8663CAD9 /* [CP] Check Pods Manifest.lock */,
+				64B8010A1FA398D7004A6EEE /* Sources */,
+				64B8010B1FA398D7004A6EEE /* Frameworks */,
+				64B8010C1FA398D7004A6EEE /* Resources */,
+				6666CE758929F40F08CF9E13 /* [CP] Embed Pods Frameworks */,
+				87D435AACF97B602FD8BE74F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
+				64B801401FA3A587004A6EEE /* PBXTargetDependency */,
 			);
-			name = Trakt_Tests;
-			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* Trakt_Tests.xctest */;
+			name = TraktTests;
+			productName = TraktTests;
+			productReference = 64B8010E1FA398D7004A6EEE /* TraktTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		64B8012E1FA3A50A004A6EEE /* TraktTestsResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64B801341FA3A50A004A6EEE /* Build configuration list for PBXNativeTarget "TraktTestsResources" */;
+			buildPhases = (
+				64B8012B1FA3A50A004A6EEE /* Sources */,
+				64B8012C1FA3A50A004A6EEE /* Frameworks */,
+				64B8012D1FA3A50A004A6EEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TraktTestsResources;
+			productName = TraktTestsResources;
+			productReference = 64B8012F1FA3A50A004A6EEE /* TraktTestsResources.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -208,7 +275,7 @@
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
@@ -217,10 +284,15 @@
 						DevelopmentTeam = B5RPM7SE3L;
 						LastSwiftMigration = 0820;
 					};
-					607FACE41AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
+					64B8010D1FA398D7004A6EEE = {
+						CreatedOnToolsVersion = 9.0;
 						DevelopmentTeam = B5RPM7SE3L;
-						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
+					64B8012E1FA3A50A004A6EEE = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = B5RPM7SE3L;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -238,7 +310,8 @@
 			projectRoot = "";
 			targets = (
 				607FACCF1AFB9204008FA782 /* Trakt_Example */,
-				607FACE41AFB9204008FA782 /* Trakt_Tests */,
+				64B8010D1FA398D7004A6EEE /* TraktTests */,
+				64B8012E1FA3A50A004A6EEE /* TraktTestsResources */,
 			);
 		};
 /* End PBXProject section */
@@ -254,10 +327,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE31AFB9204008FA782 /* Resources */ = {
+		64B8010C1FA398D7004A6EEE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64B8012D1FA3A50A004A6EEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64B801381FA3A510004A6EEE /* trakt_search_textquery.json in Resources */,
+				64B8013C1FA3A510004A6EEE /* trakt_sync_watchedshows.json in Resources */,
+				64B801351FA3A510004A6EEE /* trakt_episodes_summary.json in Resources */,
+				64B8013B1FA3A510004A6EEE /* trakt_shows_watchedprogress.json in Resources */,
+				64B8013A1FA3A510004A6EEE /* trakt_shows_trending.json in Resources */,
+				64B801391FA3A510004A6EEE /* trakt_shows_summary.json in Resources */,
+				64B801361FA3A510004A6EEE /* trakt_genres_movies.json in Resources */,
+				64B8013D1FA3A510004A6EEE /* trakt_users_settings.json in Resources */,
+				64B801371FA3A510004A6EEE /* trakt_genres_shows.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,28 +359,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Trakt_Example-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		14F6C95A8F6DE4B9F13BD7ED /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trakt_Tests/Pods-Trakt_Tests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4FE6FA0E1EF31B2900A0B707 /* SwiftLint */ = {
@@ -308,33 +385,69 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --config ../.swiftlint.yml\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		4FE6FA0F1EF31EBE00A0B707 /* SwiftLint */ = {
+		6666CE758929F40F08CF9E13 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Moya-macOS/Moya.framework",
+				"${BUILT_PRODUCTS_DIR}/Moya-ObjectMapper-macOS/Moya_ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper-macOS/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/Result-macOS/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift-macOS/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Trakt-macOS/Trakt.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
-			name = SwiftLint;
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya_ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Trakt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --config ../.swiftlint.yml\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
-		5116B30D759A7EBDBDC9F0C8 /* [CP] Check Pods Manifest.lock */ = {
+		6D3671F2B379BE7C8663CAD9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TraktTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		87D435AACF97B602FD8BE74F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8A1839E65254B96E48E51480 /* [CP] Embed Pods Frameworks */ = {
@@ -343,28 +456,28 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Trakt_Example/Pods-Trakt_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Moya-iOS/Moya.framework",
+				"${BUILT_PRODUCTS_DIR}/Moya-ObjectMapper-iOS/Moya_ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper-iOS/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/Result-iOS/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift-iOS/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Trakt-iOS/Trakt.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya_ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Trakt.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trakt_Example/Pods-Trakt_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8FCB681103BD2B912C9826C3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trakt_Tests/Pods-Trakt_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B34650058B132B08E2475F52 /* [CP] Copy Pods Resources */ = {
@@ -393,21 +506,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE11AFB9204008FA782 /* Sources */ = {
+		64B8010A1FA398D7004A6EEE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				64B801241FA39911004A6EEE /* ShowsTest.swift in Sources */,
+				64B801231FA39911004A6EEE /* JSONParsers.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64B8012B1FA3A50A004A6EEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
+		64B801401FA3A587004A6EEE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* Trakt_Example */;
-			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
+			target = 64B8012E1FA3A50A004A6EEE /* TraktTestsResources */;
+			targetProxy = 64B8013F1FA3A587004A6EEE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -548,41 +669,126 @@
 			};
 			name = Release;
 		};
-		607FACF31AFB9204008FA782 /* Debug */ = {
+		64B801141FA398D7004A6EEE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82CA716D4DA5ED10F675D1D8 /* Pods-Trakt_Tests.debug.xcconfig */;
+			baseConfigurationReference = 12E47DF8A5E9D8C08F80AA4C /* Pods-TraktTests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = B5RPM7SE3L;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TraktTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.pietrocaselani.TraktTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
-		607FACF41AFB9204008FA782 /* Release */ = {
+		64B801151FA398D7004A6EEE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 915C8E0BB95B72C3E14B37D4 /* Pods-Trakt_Tests.release.xcconfig */;
+			baseConfigurationReference = 6C2EFBF92968B79F8E47C777 /* Pods-TraktTests.release.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = B5RPM7SE3L;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TraktTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.pietrocaselani.TraktTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		64B801321FA3A50A004A6EEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = B5RPM7SE3L;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TraktTestsResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.pietrocaselani.TraktTestsResources;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		64B801331FA3A50A004A6EEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = B5RPM7SE3L;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TraktTestsResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.pietrocaselani.TraktTestsResources;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -607,11 +813,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Trakt_Tests" */ = {
+		64B801131FA398D7004A6EEE /* Build configuration list for PBXNativeTarget "TraktTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				607FACF31AFB9204008FA782 /* Debug */,
-				607FACF41AFB9204008FA782 /* Release */,
+				64B801141FA398D7004A6EEE /* Debug */,
+				64B801151FA398D7004A6EEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		64B801341FA3A50A004A6EEE /* Build configuration list for PBXNativeTarget "TraktTestsResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64B801321FA3A50A004A6EEE /* Debug */,
+				64B801331FA3A50A004A6EEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

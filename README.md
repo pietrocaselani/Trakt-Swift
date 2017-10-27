@@ -26,4 +26,4 @@ Pietro Caselani, pc1992@gmail.com
 
 ## License
 
-Trakt is available under the MIT license. See the LICENSE file for more info.
+See the UNLICENSE file for more info.

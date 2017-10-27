@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint Trakt-Swift.podspec' to ensure this is a
+# Be sure to run `pod lib lint Trakt.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -20,17 +20,18 @@ Pod::Spec.new do |s|
   s.description      = "A Swift library for Trakt v2 API using Moya and facilitating OAuth"
 
   s.homepage         = 'https://github.com/pietrocaselani/Trakt-Swift'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'UNLICENSE', :file => 'UNLICENSE' }
   s.author           = { 'Pietro Caselani' => 'pc1992@gmail.com' }
   s.source           = { :git => 'https://github.com/pietrocaselani/Trakt-Swift.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/pietropc_'
 
   s.ios.deployment_target = '8.0'
+  s.osx.deployment_target = '10.10'
 
   s.source_files = 'Trakt/**/*'
 
   s.dependency 'Moya-ObjectMapper/RxSwift', '2.3.2'
   s.dependency 'Moya', '8.0.5'
-  s.dependency 'SwiftLint', '0.19.0'
+  s.dependency 'SwiftLint', '0.21.0'
   
 end

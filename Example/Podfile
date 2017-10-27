@@ -2,10 +2,15 @@ use_frameworks!
 
 target 'Trakt_Example' do
   pod 'Trakt', :path => '../'
+end
 
-  target 'Trakt_Tests' do
-    inherit! :search_paths
+target 'TraktTests' do
+  platform :osx, '10.11'
+  inherit! :search_paths
 
-    
-  end
+  pod 'Moya/RxSwift', '8.0.5'
+  pod 'SwiftLint', '0.21.0'
+  pod 'Moya-ObjectMapper/RxSwift', '2.3.2'
+  pod 'RxTest', '3.6.1'
+  pod 'Trakt', :path => '../'
 end
