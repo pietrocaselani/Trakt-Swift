@@ -22,6 +22,7 @@
 		64B8013B1FA3A510004A6EEE /* trakt_shows_watchedprogress.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011F1FA3990B004A6EEE /* trakt_shows_watchedprogress.json */; };
 		64B8013C1FA3A510004A6EEE /* trakt_sync_watchedshows.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B801201FA3990B004A6EEE /* trakt_sync_watchedshows.json */; };
 		64B8013D1FA3A510004A6EEE /* trakt_users_settings.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B801211FA3990B004A6EEE /* trakt_users_settings.json */; };
+		64B801A21FA788E3004A6EEE /* TraktTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B801A11FA788E3004A6EEE /* TraktTests.swift */; };
 		7ACA200D80200D76C9A5E5EC /* Pods_Trakt_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5042808C17312594E309AB86 /* Pods_Trakt_Example.framework */; };
 		E0D5B636157E960E18B2A394 /* Pods_TraktTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BB5161DE48358C2D53AE51 /* Pods_TraktTests.framework */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,7 @@
 		64B801221FA3990B004A6EEE /* JSONParsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsers.swift; sourceTree = "<group>"; };
 		64B8012F1FA3A50A004A6EEE /* TraktTestsResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TraktTestsResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		64B801311FA3A50A004A6EEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64B801A11FA788E3004A6EEE /* TraktTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraktTests.swift; sourceTree = "<group>"; };
 		6C2EFBF92968B79F8E47C777 /* Pods-TraktTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraktTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests.release.xcconfig"; sourceTree = "<group>"; };
 		C9204B814150B31DFB49F5FB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D5F399452A9E5AF02591717A /* Trakt.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Trakt.podspec; path = ../Trakt.podspec; sourceTree = "<group>"; };
@@ -164,10 +166,11 @@
 		64B8010F1FA398D7004A6EEE /* TraktTests */ = {
 			isa = PBXGroup;
 			children = (
+				64B801121FA398D7004A6EEE /* Info.plist */,
 				64B801221FA3990B004A6EEE /* JSONParsers.swift */,
 				64B801181FA3990B004A6EEE /* JSONs */,
 				64B801161FA3990B004A6EEE /* ShowsTest.swift */,
-				64B801121FA398D7004A6EEE /* Info.plist */,
+				64B801A11FA788E3004A6EEE /* TraktTests.swift */,
 			);
 			path = TraktTests;
 			sourceTree = "<group>";
@@ -368,7 +371,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		4FE6FA0E1EF31B2900A0B707 /* SwiftLint */ = {
@@ -432,7 +435,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		87D435AACF97B602FD8BE74F /* [CP] Copy Pods Resources */ = {
@@ -512,6 +515,7 @@
 			files = (
 				64B801241FA39911004A6EEE /* ShowsTest.swift in Sources */,
 				64B801231FA39911004A6EEE /* JSONParsers.swift in Sources */,
+				64B801A21FA788E3004A6EEE /* TraktTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

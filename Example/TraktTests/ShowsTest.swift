@@ -3,7 +3,7 @@ import Moya
 import Moya_ObjectMapper
 import RxTest
 import RxSwift
-import Trakt
+import TraktSwift
 
 final class ShowsTest: XCTestCase {
   private let showsProvider = RxMoyaProvider<Shows>(stubClosure: MoyaProvider.immediatelyStub)
