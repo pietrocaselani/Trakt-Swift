@@ -1,6 +1,5 @@
 included:
-  - Example
+  - Example/Trakt
   - Trakt
-
 excluded:
   - Example/Pods
