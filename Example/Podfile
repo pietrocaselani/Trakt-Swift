@@ -1,11 +1,6 @@
 use_frameworks!
 
-target 'Trakt_Example' do
-  pod 'Trakt', :path => '../'
-end
-
 target 'TraktTests' do
-  platform :osx, '10.11'
   inherit! :search_paths
 
   pod 'RxTest', '4.0.0'
