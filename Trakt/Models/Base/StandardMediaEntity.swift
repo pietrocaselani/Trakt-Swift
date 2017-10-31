@@ -1,6 +1,4 @@
-import ObjectMapper
-
-public class StandardMediaEntity: ImmutableMappable, Hashable {
+public class StandardMediaEntity: Codable, Hashable {
   public var title: String?
   public var overview: String?
   public var rating: Double?
@@ -8,14 +6,27 @@ public class StandardMediaEntity: ImmutableMappable, Hashable {
   public var updatedAt: Date?
   public var translations: [String]?
 
-  public required init(map: Map) throws {
-    self.title = try? map.value("title")
-    self.overview = try? map.value("overview")
-    self.rating = try? map.value("rating")
-    self.votes = try? map.value("votes")
-    self.translations = try? map.value("available_translations")
-    self.updatedAt = try? map.value("updated_at", using: TraktDateTransformer.dateTimeTransformer)
-  }
+	private enum CodingKeys: String, CodingKey {
+		case title
+		case overview
+		case rating
+		case votes
+		case updatedAt = "updated_at"
+		case translations = "available_translations"
+	}
+
+	public required init(from decoder: Decoder) throws {
+		let container = decoder.container(keyedBy: CodingKeys.self)
+
+		self.title = container.decodeIfPresent(String.self, forKey: .title)
+		self.overview = container.decodeIfPresent(String.self, forKey: .overview)
+		self.rating = container.decodeIfPresent(Double.self, forKey: .rating)
+		self.votes = container.decodeIfPresent(Int.self, forKey: .votes)
+		self.translations = container.decodeIfPresent([String.self], forKey: .translations)
+
+		let updatedAt = container.decodeIfPresent(String.self, forKey: .updatedAt)
+		self.updatedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(updatedAt)
+	}
 
   public var hashValue: Int {
     var hash = 0

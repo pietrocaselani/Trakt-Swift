@@ -1,6 +1,4 @@
-import ObjectMapper
-
-public final class User: ImmutableMappable, Hashable {
+public final class User: Codable, Hashable {
   public let username: String
   public let isPrivate: Bool
   public let name: String
@@ -14,35 +12,30 @@ public final class User: ImmutableMappable, Hashable {
   public let age: Int
   public let images: Images
 
-  public init(map: Map) throws {
-    self.username = try map.value("username")
-    self.isPrivate = try map.value("private")
-    self.name = try map.value("name")
-    self.vip = try map.value("vip")
-    self.vipExecuteProducer = try map.value("vip_ep")
-    self.ids = try map.value("ids")
-    self.joinedAt = try map.value("joined_at", using: TraktDateTransformer.dateTimeTransformer)
-    self.location = try map.value("location")
-    self.about = try map.value("about")
-    self.gender = try map.value("gender")
-    self.age = try map.value("age")
-    self.images = try map.value("images")
-  }
+	private enum CodingKeys: String, CodingKey {
+		case username, isPrivate, name, vip, ids, location, about, gender, age, images
+		case vipExecuteProducer = "vip_ep"
+		case joinedAt = "joined_at"
+	}
 
-  public func mapping(map: Map) {
-    username >>> map["username"]
-    isPrivate >>> map["private"]
-    name >>> map["name"]
-    vip >>> map["vip"]
-    vipExecuteProducer >>> map["vip_ep"]
-    ids >>> map["ids"]
-    joinedAt >>> map["joined_at"]
-    location >>> map["location"]
-    about >>> map["about"]
-    gender >>> map["gender"]
-    age >>> map["age"]
-    images >>> map["images"]
-  }
+	public required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: User.self)
+
+		self.username = try container.decode(String.self, .username)
+		self.isPrivate = try container.decode(Bool.self, .isPrivate)
+		self.name = try container.decode(String.self, .name)
+		self.vip = try container.decode(Bool.self, .vip)
+		self.vipExecuteProducer = try container.decode(Bool.self, .vipExecuteProducer)
+		self.ids = try container.decode(UserIds.self, .ids)
+		self.location = try container.decode(String.self, .location)
+		self.about = try container.decode(String.self, .about)
+		self.gender = try container.decode(String.self, .gender)
+		self.age = try container.decode(Int.self, .age)
+		self.images = try container.decode(Images.self, .images)
+
+		let joinedAt = try container.decode(String.self, .joinedAt)
+		self.joinedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(joinedAt)
+	}
 
   public var hashValue: Int {
     var hash = username.hashValue ^ isPrivate.hashValue ^ name.hashValue ^ vip.hashValue ^ vipExecuteProducer.hashValue

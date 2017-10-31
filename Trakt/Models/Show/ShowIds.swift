@@ -1,5 +1,3 @@
-import ObjectMapper
-
 public final class ShowIds: BaseIds {
   public let slug: String
   public let tvdb: Int
@@ -9,6 +7,10 @@ public final class ShowIds: BaseIds {
     return String(trakt)
   }
 
+	private enum CodingKeys: String, CodingKey {
+		case slug, tvdb, tvrage
+	}
+
   public init(trakt: Int, tmdb: Int?, imdb: String?, slug: String, tvdb: Int, tvrage: Int?) {
     self.slug = slug
     self.tvdb = tvdb
@@ -16,18 +18,25 @@ public final class ShowIds: BaseIds {
     super.init(trakt: trakt, tmdb: tmdb, imdb: imdb)
   }
   
-  public required init(map: Map) throws {
-    self.slug = try map.value("slug")
-    self.tvdb = try map.value("tvdb")
-    self.tvrage = try? map.value("tvrage")
-    try super.init(map: map)
-  }
-  
-  public override func mapping(map: Map) {
-    self.slug >>> map["slug"]
-    self.tvdb >>> map["tvdb"]
-    self.tvrage >>> map["tvrage"]
-  }
+	public override required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		self.slug = try container.decode(String.self, forKey: .slug)
+		self.tvdb = try container.decode(Int.self, forKey: .tvdb)
+		self.tvrage = try container.decodeIfPresent(Int.self, forKey: .tvrage)
+
+		super.init(from: decoder)
+	}
+
+	public override func encode(to encoder: Encoder) throws {
+		let container = encoder.container(keyedBy: CodingKeys.self)
+
+		try container.encode(slug, forKey: .slug)
+		try container.encode(tvdb, forKey: .tvdb)
+		try container.encodeIfPresent(tvrage, forKey: .tvrage)
+
+		super.encode(to: encoder)
+	}
   
   public override var hashValue: Int {
     var hash = super.hashValue ^ slug.hashValue ^ tvdb.hashValue

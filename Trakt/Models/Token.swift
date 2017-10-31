@@ -1,12 +1,19 @@
 import Foundation
-import ObjectMapper
 
-public final class Token: NSObject, ImmutableMappable, NSCoding {
+public final class Token: NSObject, Codable, NSCoding {
   public let accessToken: String
   public let expiresIn: Date
   public let refreshToken: String
   public let tokenType: String
   public let scope: String
+
+	private enum CodingKeys: String, CodingKey {
+		case accessToken = "access_token"
+		case expiresIn = "expires_in"
+		case refreshToken = "refresh_token"
+		case tokenType = "token_type"
+		case scope
+	}
 
   public init(accessToken: String, expiresIn: Date, refreshToken: String, tokenType: String, scope: String) {
     self.accessToken = accessToken
@@ -16,13 +23,17 @@ public final class Token: NSObject, ImmutableMappable, NSCoding {
     self.scope = scope
   }
 
-  public required init(map: Map) throws {
-    self.accessToken = try map.value("access_token")
-    self.expiresIn = Date(timeIntervalSinceNow: try map.value("expires_in"))
-    self.refreshToken = try map.value("refresh_token")
-    self.tokenType = try map.value("token_type")
-    self.scope = try map.value("scope")
-  }
+	public required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		self.accessToken = try container.decode(String.self, forKey: .accessToken)
+		self.refreshToken = try container.decode(String.self, forKey: .refreshToken)
+		self.tokenType = try container.decode(String.self, forKey: .tokenType)
+		self.scope = try container.decode(String.self, forKey: .scope)
+
+		let expiresIn = try container.decode(TimeInterval.self, forKey: .expiresIn)
+		self.expiresIn = Date(timeIntervalSinceNow: expiresIn)
+	}
 
   public required convenience init?(coder: NSCoder) {
     guard let accessToken = coder.decodeObject(forKey: "accessToken") as? String,
@@ -44,13 +55,15 @@ public final class Token: NSObject, ImmutableMappable, NSCoding {
     coder.encode(scope, forKey: "scope")
   }
 
-  public func mapping(map: Map) {
-    self.accessToken >>> map["access_token"]
-    self.expiresIn >>> map["expires_in"]
-    self.refreshToken >>> map["refresh_token"]
-    self.tokenType >>> map["token_type"]
-    self.scope >>> map["scope"]
-  }
+	public func encode(to encoder: Encoder) throws {
+		let container = encoder.container(keyedBy: CodingKeys.self)
+
+		try container.encode(accessToken, forKey: .accessToken)
+		try container.encode(expiresIn.timeIntervalSinceNow, forKey: .expiresIn)
+		try container.encode(refreshToken, forKey: .refreshToken)
+		try container.encode(tokenType, forKey: .tokenType)
+		try container.encode(scope, forKey: .scope)
+	}
 
   public override func isEqual(_ object: Any?) -> Bool {
     guard let anotherToken = object as? Token else { return false }

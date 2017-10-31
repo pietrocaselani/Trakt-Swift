@@ -1,18 +1,8 @@
-import ObjectMapper
-
-public final class SearchResult: ImmutableMappable {
-
+public final class SearchResult: Codable {
   public let type: SearchType
   public let score: Double?
   public let movie: Movie?
   public let show: Show?
-
-  public init(map: Map) throws {
-    self.type = (try? map.value("type")) ?? .movie
-    self.score = try? map.value("score")
-    self.movie = try? map.value("movie")
-    self.show = try? map.value("show")
-  }
 }
 
 extension SearchResult: Hashable {

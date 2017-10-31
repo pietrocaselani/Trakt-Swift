@@ -1,13 +1,11 @@
-import ObjectMapper
-
-public final class Settings: ImmutableMappable {
+public final class Settings: Codable, Hashable {
   public let user: User
 
-  public init(map: Map) throws {
-    self.user = try map.value("user")
-  }
+	public var hashValue: Int {
+		return user.hashValue
+	}
 
-  public func mapping(map: Map) {
-    user >>> map["user"]
-  }
+	public static func == (lhs: Settings, rhs: Settings) -> Bool {
+		return lhs.hashValue == rhs.hashValue
+	}
 }

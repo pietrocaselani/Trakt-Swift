@@ -1,4 +1,4 @@
-public enum Rating: Int, Equatable {
+public enum Rating: Int, Equatable, Codable {
   case weaksauce = 1
   case terrible = 2
   case bad = 3
@@ -9,8 +9,4 @@ public enum Rating: Int, Equatable {
   case great = 8
   case superb = 9
   case totallyninja = 10
-
-  public static func ==(lhs: Rating, rhs: Rating) -> Bool {
-    return lhs.rawValue == rhs.rawValue
-  }
 }

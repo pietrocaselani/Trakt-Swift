@@ -1,9 +1,4 @@
-import ObjectMapper
-
-public struct TraktDateTransformer: TransformType {
-  public typealias Object = Date
-  public typealias JSON = String
-
+public struct TraktDateTransformer {
   public static let dateTimeTransformer = TraktDateTransformer(format: "yyyy-MM-dd'T'HH:mm:ss.000Z")
   public static let dateTransformer = TraktDateTransformer(format: "yyyy-MM-dd")
 
@@ -16,8 +11,8 @@ public struct TraktDateTransformer: TransformType {
     dateFormatter.dateFormat = format
   }
 
-  public func transformFromJSON(_ value: Any?) -> Date? {
-    if let stringDate = value as? String {
+  public func transformFromJSON(_ value: String?) -> Date? {
+    if let stringDate = value {
       let resultDate = dateFormatter.date(from: stringDate)
       return resultDate
     }

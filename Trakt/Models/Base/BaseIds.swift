@@ -1,9 +1,11 @@
-import ObjectMapper
-
-public class BaseIds: ImmutableMappable, Hashable, CustomStringConvertible {
+public class BaseIds: Codable, Hashable, CustomStringConvertible {
   public let trakt: Int
   public let tmdb: Int?
   public let imdb: String?
+
+	private enum CodingKeys: String, CodingKey {
+		case trakt, tmdb, imdb
+	}
 
   public init(trakt: Int, tmdb: Int?, imdb: String?) {
     self.trakt = trakt
@@ -11,17 +13,21 @@ public class BaseIds: ImmutableMappable, Hashable, CustomStringConvertible {
     self.imdb = imdb
   }
 
-  public required init(map: Map) throws {
-    self.trakt = try map.value("trakt")
-    self.tmdb = try? map.value("tmdb")
-    self.imdb = try? map.value("imdb")
-  }
+	public required init(from decoder: Decoder) throws {
+		let container = decoder.container(keyedBy: CodingKeys)
 
-  public func mapping(map: Map) {
-    self.trakt >>> map["trakt"]
-    self.tmdb >>> map["tmdb"]
-    self.imdb >>> map["imdb"]
-  }
+		self.trakt = container.decode(Int.self, forKey: .trakt)
+		self.tmdb = container.decodeIfPresent(Int.self, forKey: .tmdb)
+		self.imdb = container.decodeIfPresent(String.self, forKey: .imdb)
+	}
+
+	public func encode(to encoder: Encoder) throws {
+		let container = encoder.container(keyedBy: CodingKeys.self)
+
+		container.encode(trakt, forKey: .trakt)
+		container.encodeIfPresent(tmdb, forKey: .tmdb)
+		container.encodeIfPresent(imdb, forKey: .imdb)
+	}
 
   public var hashValue: Int {
     var hash = trakt.hashValue

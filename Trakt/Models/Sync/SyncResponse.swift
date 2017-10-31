@@ -1,10 +1,13 @@
-import ObjectMapper
-
-public struct SyncResponse: ImmutableMappable {
+public struct SyncResponse: Codable {
   public let added: SyncStats?
   public let existing: SyncStats?
   public let deleted: SyncStats?
   public let notFound: SyncStats?
+
+	private enum CodingKeys: String, CodingKey {
+		case added, existing, deleted
+		case notFound = "not_found"
+	}
   
   public init(added: SyncStats?, existing: SyncStats?, deleted: SyncStats?, notFound: SyncStats?) {
     self.added = added
@@ -12,18 +15,22 @@ public struct SyncResponse: ImmutableMappable {
     self.deleted = deleted
     self.notFound = notFound
   }
-  
-  public init(map: Map) throws {
-    self.added = try? map.value("added")
-    self.existing = try? map.value("existing")
-    self.deleted = try? map.value("deleted")
-    self.notFound = try? map.value("not_found")
-  }
-  
-  public func mapping(map: Map) {
-    self.added >>> map["added"]
-    self.existing >>> map["existing"]
-    self.deleted >>> map["deleted"]
-    self.notFound >>> map["not_found"]
-  }
+
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		self.added = try container.decodeIfPresent(SyncStats.self, forKey: .added)
+		self.existing = try container.decodeIfPresent(SyncStats.self, forKey: .existing)
+		self.deleted = try container.decodeIfPresent(SyncStats.self, forKey: .deleted)
+		self.notFound = try container.decodeIfPresent(SyncStats.self, forKey: .notFound)
+	}
+
+	public func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+
+		try encoder.encodeIfPresent(added, forKey: .added)
+		try encoder.encodeIfPresent(existing, forKey: .existing)
+		try encoder.encodeIfPresent(deleted, forKey: .deleted)
+		try encoder.encodeIfPresent(notFound, forKey: .notFound)
+	}
 }

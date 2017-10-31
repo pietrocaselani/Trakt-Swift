@@ -1,31 +1,35 @@
-import ObjectMapper
-
-public struct SyncMovie: ImmutableMappable {
-  public let ids: MovieIds
-  public let watchedAt, collectedAt, ratedAt: Date?
-  public let rating: Rating?
-  
-  public init(ids: MovieIds, watchedAt: Date?, collectedAt: Date?, ratedAt: Date?, rating: Rating?) {
-    self.ids = ids
-    self.watchedAt = watchedAt
-    self.collectedAt = collectedAt
-    self.ratedAt = ratedAt
-    self.rating = rating
-  }
-  
-  public init(map: Map) throws {
-    self.ids = try map.value("ids")
-    self.watchedAt = try? map.value("watched_at")
-    self.collectedAt = try? map.value("collected_at")
-    self.rating = try? map.value("rating")
-    self.ratedAt = try? map.value("rated_at")
-  }
-  
-  public func mapping(map: Map) {
-    self.ids >>> map["ids"]
-    self.watchedAt >>> map["watched_at"]
-    self.collectedAt >>> map["collected_at"]
-    self.rating >>> map["rating"]
-    self.ratedAt >>> map["rated_at"]
-  }
+public struct SyncMovie: Codable {
+	public let ids: MovieIds
+	public let watchedAt, collectedAt, ratedAt: Date?
+	public let rating: Rating?
+	
+	private enum CodingKeys: String, CodingKey {
+		case ids, rating
+		case watchedAt = "watched_at"
+		case collectedAt = "collected_at"
+		case ratedAt = "rated_at"
+	}
+	
+	public init(ids: MovieIds, watchedAt: Date?, collectedAt: Date?, ratedAt: Date?, rating: Rating?) {
+		self.ids = ids
+		self.watchedAt = watchedAt
+		self.collectedAt = collectedAt
+		self.ratedAt = ratedAt
+		self.rating = rating
+	}
+	
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		self.ids = try container.decode(MovieIds.self, forKey: .ids)
+		self.rating = try container.decodeIfPresent(Rating.self, forKey: .rating)
+		
+		let watchedAt = try container.decodeIfPresent(String.self, forKey: .watchedAt)
+		let collectedAt = try container.decodeIfPresent(String.self, forKey: .collectedAt)
+		let ratedAt = try container.decodeIfPresent(String.self, forKey: .ratedAt)
+		
+		self.watchedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(watchedAt)
+		self.collectedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(collectedAt)
+		self.ratedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(ratedAt)
+	}
 }

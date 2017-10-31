@@ -1,11 +1,16 @@
-import ObjectMapper
-
-public struct SyncSeason: ImmutableMappable {
+public struct SyncSeason: Codable {
   public let number: Int
   public let watchedAt: Date
   public let episodes: [SyncEpisode]?
   public let collectedAt, ratedAt: Date?
   public let rating: Rating?
+
+	private enum CodingKeys: String, CodingKey {
+		case number, episodes, rating
+		case watchedAt = "watched_at"
+		case collectedAt = "collected_at"
+		case ratedAt = "rated_at"
+	}
   
   public init(number: Int, watchedAt: Date, episodes: [SyncEpisode]?, collectedAt: Date?, ratedAt: Date?, rating: Rating?) {
     self.number = number
@@ -15,22 +20,25 @@ public struct SyncSeason: ImmutableMappable {
     self.ratedAt = ratedAt
     self.rating = rating
   }
-  
-  public init(map: Map) throws {
-    self.number = try map.value("number")
-    self.watchedAt = try map.value("watched_at")
-    self.episodes = try? map.value("episodes")
-    self.collectedAt = try? map.value("collected_at")
-    self.ratedAt = try? map.value("rated_at")
-    self.rating = try? map.value("rating")
-  }
-  
-  public func mapping(map: Map) {
-    self.number >>> map["number"]
-    self.watchedAt >>> map["watched_at"]
-    self.episodes >>> map["episodes"]
-    self.collectedAt >>> map["collected_at"]
-    self.ratedAt >>> map["rated_at"]
-    self.rating >>> map["rating"]
-  }  
+
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		self.number = try container.decode(Int.self, forKey: .number)
+		self.episodes = try container.decodeIfPresent([SyncEpisode].self, forKey: .episodes)
+		self.rating = try container.decodeIfPresent(Rating.self, forKey: .rating)
+
+		let watchedAt = try container.decodeIfPresent(String.self, forKey: .watchedAt)
+		let collectedAt = try container.decodeIfPresent(String.self, forKey: .collectedAt)
+		let ratedAt = try container.decodeIfPresent(String.self, forKey: .ratedAt)
+
+		self.watchedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(watchedAt)
+		self.collectedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(collectedAt)
+		self.ratedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(ratedAt)
+	}
+
+	public func encode(to encoder: Encoder) throws {
+
+	}
+
 }

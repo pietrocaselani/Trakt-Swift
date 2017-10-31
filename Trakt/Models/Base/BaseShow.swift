@@ -1,7 +1,6 @@
 import Foundation
-import ObjectMapper
 
-public final class BaseShow: ImmutableMappable, Hashable {
+public final class BaseShow: Codable, Hashable {
   public let show: Show?
   public let seasons: [BaseSeason]?
   public let lastCollectedAt: Date?

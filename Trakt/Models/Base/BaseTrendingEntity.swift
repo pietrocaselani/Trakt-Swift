@@ -1,11 +1,5 @@
-import ObjectMapper
-
-public class BaseTrendingEntity: ImmutableMappable, Hashable {
+public class BaseTrendingEntity: Codable, Hashable {
   public let watchers: Int
-
-  public required init(map: Map) throws {
-    self.watchers = try map.value("watchers")
-  }
 
   public var hashValue: Int {
     return watchers.hashValue

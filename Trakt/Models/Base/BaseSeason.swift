@@ -1,17 +1,21 @@
-import ObjectMapper
-
-public final class BaseSeason: ImmutableMappable, Hashable {
+public final class BaseSeason: Codable, Hashable {
   public let number: Int
   public let episodes: [BaseEpisode]
   public let aired: Int?
   public let completed: Int?
 
-  public init(map: Map) throws {
-    self.number = try map.value("number")
-    self.episodes = try map.value("episodes")
-    self.aired = try? map.value("aired")
-    self.completed = try? map.value("completed")
-  }
+	private enum CodingKeys: String, CodingKey {
+		case number, episodes, aired, completed
+	}
+
+	public required init(from decoder: Decoder) throws {
+		let container = decoder.container(keyedBy: CodingKeys)
+
+		self.number = container.decode(Int.self, forKey: .number)
+		self.episodes = container.decode([BaseEpisode.self], forKey: .episodes)
+		self.aired = container.decodeIfPresent(Int.self, forKey: .aired)
+		self.completed = container.decodeIfPresent(Int.self, forKey: .completed)
+	}
   
   public var hashValue: Int {
     var hash = number.hashValue

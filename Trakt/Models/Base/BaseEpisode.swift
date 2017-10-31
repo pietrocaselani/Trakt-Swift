@@ -1,20 +1,33 @@
 import Foundation
-import ObjectMapper
 
-public final class BaseEpisode: ImmutableMappable, Hashable {
+public final class BaseEpisode: Codable, Hashable {
   public let number: Int
   public let collectedAt: Date?
   public let plays: Int?
   public let lastWatchedAt: Date?
   public let completed: Bool?
-  
-  public init(map: Map) throws {
-    self.number = try map.value("number")
-    self.collectedAt = try? map.value("collected_at", using: TraktDateTransformer.dateTimeTransformer)
-    self.lastWatchedAt = try? map.value("last_watched_at", using: TraktDateTransformer.dateTimeTransformer)
-    self.plays = try? map.value("plays")
-    self.completed = try? map.value("completed")
-  }
+
+	private enum CodingKeys: String, CodingKey {
+		case number
+		case collectedAt = "collected_at"
+		case lastWatchedAt = "last_watched_at"
+		case plays
+		case completed
+	}
+
+	public required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		self.number = try container.decode(Int.self, forKey: .number)
+		self.plays = try container.decodeIfPresent(Int.self, forKey: .plays)
+		self.completed = try container.decodeIfPresent(Bool.self, forKey: .completed)
+
+		collectedAt = try container.decodeIfPresent(String.self, forKey: .collectedAt)
+		self.collectedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(collectedAt)
+
+		let lastWatchedAt = try container.decodeIfPresent(String.self, forKey: .lastWatchedAt)
+		self.lastWatchedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(lastWatchedAt)
+	}
   
   public var hashValue: Int {
     var hash = number.hashValue

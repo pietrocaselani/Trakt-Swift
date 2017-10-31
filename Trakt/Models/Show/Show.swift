@@ -1,5 +1,4 @@
 import Foundation
-import ObjectMapper
 
 public final class Show: StandardMediaEntity {
   public let year: Int
@@ -15,24 +14,31 @@ public final class Show: StandardMediaEntity {
   public let status: Status?
   public let language: String?
   public let genres: [String]?
-  
-  public required init(map: Map) throws {
-    self.year = try map.value("year")
-    self.ids = try map.value("ids")
-    self.firstAired = try? map.value("first_aired", using: TraktDateTransformer.dateTimeTransformer)
-    self.airs = try? map.value("airs")
-    self.runtime = try? map.value("runtime")
-    self.certification = try? map.value("certification")
-    self.network = try? map.value("network")
-    self.country = try? map.value("country")
-    self.trailer = try? map.value("trailer")
-    self.homepage = try? map.value("homepage")
-    self.status = try? map.value("status")
-    self.language = try? map.value("language")
-    self.genres = try? map.value("genres")
-    
-    try super.init(map: map)
-  }
+
+	private enum CodingKeys: String, CodingKey {
+		case year, ids, airs, runtime, certification, network, country, trailer, homepage, status, language, genres
+		case firstAired = "first_aired"
+	}
+
+	public override required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		self.year = try container.decode(Int.self, forKey: .year)
+		self.ids = try container.decode(ShowIds.self, forKey: .ids)
+		self.airs = try container.decodeIfPresent(Airs.self, forKey: .airs)
+		self.runtime = try container.decodeIfPresent(Int.self, forKey: .runtime)
+		self.certification = try container.decodeIfPresent(String.self, forKey: .certification)
+		self.network = try container.decodeIfPresent(String.self, forKey: .network)
+		self.country = try container.decodeIfPresent(String.self, forKey: .country)
+		self.trailer = try container.decodeIfPresent(String.self, forKey: .trailer)
+		self.homepage = try container.decodeIfPresent(String.self, forKey: .homepage)
+		self.status = try container.decodeIfPresent(Status.self, forKey: .status)
+		self.language = try container.decodeIfPresent(String.self, forKey: .language)
+		self.genres = try container.decodeIfPresent([String].self, forKey: .genres)
+
+		let firstAired = try container.decodeIfPresent(String.self, forKey: .firstAired)
+		self.firstAired = TraktDateTransformer.dateTimeTransformer.transformFromJSON(firstAired)
+	}
   
   public override var hashValue: Int {
     var hash = super.hashValue ^ year.hashValue ^ ids.hashValue

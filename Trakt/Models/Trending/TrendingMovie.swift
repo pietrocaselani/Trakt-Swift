@@ -1,12 +1,25 @@
-import ObjectMapper
-
 public final class TrendingMovie: BaseTrendingEntity {
   public let movie: Movie
 
-  public required init(map: Map) throws {
-    self.movie = try map.value("movie")
-    try super.init(map: map)
-  }
+	private enum CodingKeys: String, CodingKey {
+		case movie
+	}
+
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		self.movie = container.decode(Movie.self, forKey: .movie)
+
+		super.init(from: decoder)
+	}
+
+	public func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+
+		try container.encode(movie, forKey: Movie.self)
+
+		super.encode(to: encoder)
+	}
 
   public override var hashValue: Int {
     return super.hashValue ^ movie.hashValue

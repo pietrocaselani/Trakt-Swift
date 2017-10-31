@@ -1,5 +1,3 @@
-import ObjectMapper
-
 public final class Movie: StandardMediaEntity {
   public let year: Int
   public let ids: MovieIds
@@ -12,20 +10,26 @@ public final class Movie: StandardMediaEntity {
   public let language: String?
   public let genres: [String]?
 
-  public required init(map: Map) throws {
-    self.year = try map.value("year")
-    self.ids = try map.value("ids")
-    self.certification = try? map.value("certification")
-    self.tagline = try? map.value("tagline")
-    self.released = try? map.value("released", using: TraktDateTransformer.dateTransformer)
-    self.runtime = try? map.value("runtime")
-    self.trailer = try? map.value("trailer")
-    self.homepage = try? map.value("homepage")
-    self.language = try? map.value("language")
-    self.genres = try? map.value("genres")
+	private enum CodingKeys: String, CodingKey {
+		case year, ids, certification, tagline, released, runtime, trailer, homepage, language, genres
+	}
 
-    try super.init(map: map)
-  }
+	public required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKey.self)
+
+		self.year = try container.decode(Int.self, forKey: .year)
+		self.ids = try container.decode(Int.self, forKey: .ids)
+		self.certification = try container.decodeIfPresent(String.self, forKey: .certification)
+		self.tagline = try container.decodeIfPresent(String.self, forKey: .tagline)
+		self.runtime = try container.decodeIfPresent(Int.self, forKey: .runtime)
+		self.trailer = try container.decodeIfPresent(String.self, forKey: .trailer)
+		self.homepage = try container.decodeIfPresent(String.self, forKey: .homepage)
+		self.language = try container.decodeIfPresent(String.self, forKey: .language)
+		self.genres = try container.decodeIfPresent([String].self, forKey: .genres)
+
+		let released = try container.decodeIfPresent(String.self, forKey: .released)
+		self.released = TraktDateTransformer.dateTransformer.transformFromJSON(released)
+	}
 
   public override var hashValue: Int {
     var hash = super.hashValue ^ year.hashValue ^ ids.hashValue
