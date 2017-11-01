@@ -12,10 +12,10 @@ extension Episodes: TraktType {
     }
   }
 
-  public var parameters: [String : Any]? {
+  public var task: Task {
     switch self {
     case .summary(_, _, _, let extended):
-      return ["extended": extended.rawValue]
+      return .requestParameters(parameters: ["extended": extended.rawValue], encoding: URLEncoding.default)
     }
   }
 

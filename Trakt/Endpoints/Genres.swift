@@ -13,10 +13,6 @@ extension Genres: TraktType {
     }
   }
 
-  public var parameters: [String: Any]? {
-    return nil
-  }
-
   public var sampleData: Data {
     switch self {
     case .list(let type):

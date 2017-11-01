@@ -27,22 +27,17 @@ extension Sync: TraktType {
     }
   }
 
-  public var parameters: [String : Any]? {
+  public var task: Task {
     switch self {
-    case .watched( _, let extended):
-      return ["extended" : extended.rawValue]
+    case .watched(_, let extended):
+      return .requestParameters(parameters: ["extended": extended.rawValue], encoding: URLEncoding.default)
     case .addToHistory(let items), .removeFromHistory(let items):
-      return items.toJSON()
+      return .requestJSONEncodable(items)
     }
   }
 
-  public var parameterEncoding: ParameterEncoding {
-    switch self {
-    case .addToHistory, .removeFromHistory:
-      return JSONEncoding.default
-    default:
-      return URLEncoding.default
-    }
+  public var authorizationType: AuthorizationType {
+    return .bearer
   }
 
   public var sampleData: Data {

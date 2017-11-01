@@ -1,42 +1,42 @@
 import Moya
 
 extension Trakt {
-  public var movies: RxMoyaProvider<Movies> {
+  public var movies: MoyaProvider<Movies> {
     return createProvider(forTarget: Movies.self)
   }
 
-  public var genres: RxMoyaProvider<Genres> {
+  public var genres: MoyaProvider<Genres> {
     return createProvider(forTarget: Genres.self)
   }
 
-  public var search: RxMoyaProvider<Search> {
+  public var search: MoyaProvider<Search> {
     return createProvider(forTarget: Search.self)
   }
 
-  public var shows: RxMoyaProvider<Shows> {
+  public var shows: MoyaProvider<Shows> {
     return createProvider(forTarget: Shows.self)
   }
 
-  public var users: RxMoyaProvider<Users> {
+  public var users: MoyaProvider<Users> {
     return createProvider(forTarget: Users.self)
   }
 
-  public var authentication: RxMoyaProvider<Authentication> {
+  public var authentication: MoyaProvider<Authentication> {
     return createProvider(forTarget: Authentication.self)
   }
 
-  public var sync: RxMoyaProvider<Sync> {
+  public var sync: MoyaProvider<Sync> {
     return createProvider(forTarget: Sync.self)
   }
 
-  public var episodes: RxMoyaProvider<Episodes> {
+  public var episodes: MoyaProvider<Episodes> {
     return createProvider(forTarget: Episodes.self)
   }
 
-  private func createProvider<T: TraktType>(forTarget target: T.Type) -> RxMoyaProvider<T> {
+  private func createProvider<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T> {
     let endpointClosure = createEndpointClosure(forTarget: target)
 
-    return RxMoyaProvider<T>(endpointClosure: endpointClosure, plugins: plugins)
+    return MoyaProvider<T>(endpointClosure: endpointClosure, plugins: plugins)
   }
 
   private func createEndpointClosure<T: TargetType>(forTarget: T.Type) -> MoyaProvider<T>.EndpointClosure {

@@ -117,7 +117,7 @@ final class TraktTests: XCTestCase {
 		let observer = scheduler.createObserver(AuthenticationResult.self)
 
 		//When
-		_ = trakt.finishesAuthentication(with: request).subscribe(observer)
+		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe(observer)
 
 		//Then
 		let expectedError = TraktError.cantAuthenticate(message: "Trying to authenticate without a secret or redirect URL")
@@ -133,7 +133,7 @@ final class TraktTests: XCTestCase {
 		let observer = scheduler.createObserver(AuthenticationResult.self)
 
 		//When
-		_ = trakt.finishesAuthentication(with: request).subscribe(observer)
+		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe(observer)
 
 		//Then
 		let expectedError = TraktError.cantAuthenticate(message: "Trying to authenticate without a secret or redirect URL")
@@ -149,7 +149,7 @@ final class TraktTests: XCTestCase {
 		let observer = scheduler.createObserver(AuthenticationResult.self)
 
 		//When
-		_ = trakt.finishesAuthentication(with: request).subscribe(observer)
+		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe(observer)
 
 		//Then
 		let expectedEvents = [next(0, AuthenticationResult.undetermined), completed(0)]
@@ -164,7 +164,7 @@ final class TraktTests: XCTestCase {
 		let observer = scheduler.createObserver(AuthenticationResult.self)
 
 		//When
-		_ = trakt.finishesAuthentication(with: request).subscribe(observer)
+		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe(observer)
 
 		//Then
 		let expectedEvents = [next(0, AuthenticationResult.undetermined), completed(0)]

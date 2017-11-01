@@ -15,13 +15,16 @@ extension Movies: TraktType {
     }
   }
 
-  public var parameters: [String: Any]? {
+  public var task: Task {
+    let params: [String: Any]
     switch self {
     case .trending(let page, let limit, let extended):
-      return ["page": page, "limit": limit, "extended": extended.rawValue]
+      params = ["page": page, "limit": limit, "extended": extended.rawValue]
     case .summary(_, let extended):
-      return ["extended": extended.rawValue]
+      params = ["extended": extended.rawValue]
     }
+
+    return .requestParameters(parameters: params, encoding: URLEncoding.default)
   }
 
   public var sampleData: Data {

@@ -33,8 +33,9 @@ extension Shows: TraktType {
       return "/shows/\(showId)/progress/watched"
     }
   }
-  
-  public var parameters: [String : Any]? {
+
+  public var task: Task {
+    let params: [String: Any]
     switch self {
     case .trending(let page, let limit, let extended),
          .popular(let page, let limit, let extended),
@@ -42,11 +43,22 @@ extension Shows: TraktType {
          .watched(_, let page, let limit, let extended),
          .collected(_, let page, let limit, let extended),
          .anticipated(let page, let limit, let extended):
-      return ["page" : page, "limit" : limit, "extended" : extended.rawValue]
+      params = ["page": page, "limit": limit, "extended": extended.rawValue]
     case .summary(_, let extended):
-      return ["extended" : extended.rawValue]
+      params = ["extended": extended.rawValue]
     case .watchedProgress(_, let hidden, let specials, let countSpecials):
-      return ["hidden" : hidden, "specials" : specials, "count_specials" : countSpecials]
+      params = ["hidden": hidden, "specials": specials, "count_specials": countSpecials]
+    }
+
+    return .requestParameters(parameters: params, encoding: URLEncoding.default)
+  }
+
+  public var authorizationType: AuthorizationType {
+    switch self {
+    case .watchedProgress:
+      return .bearer
+    default:
+      return .none
     }
   }
 

@@ -18,7 +18,7 @@ public final class SeasonIds: Codable, Hashable {
 	}
 
 	public func encode(to encoder: Encoder) throws {
-		var container = try encoder.container(keyedBy: CodingKeys.self)
+		var container = encoder.container(keyedBy: CodingKeys.self)
 
 		try container.encode(tvdb, forKey: .tvdb)
 		try container.encode(tmdb, forKey: .tmdb)

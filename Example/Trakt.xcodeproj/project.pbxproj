@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		64B801231FA39911004A6EEE /* JSONParsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B801221FA3990B004A6EEE /* JSONParsers.swift */; };
 		64B801241FA39911004A6EEE /* ShowsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B801161FA3990B004A6EEE /* ShowsTest.swift */; };
 		64B801351FA3A510004A6EEE /* trakt_episodes_summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B801191FA3990B004A6EEE /* trakt_episodes_summary.json */; };
 		64B801361FA3A510004A6EEE /* trakt_genres_movies.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011A1FA3990B004A6EEE /* trakt_genres_movies.json */; };
@@ -49,7 +48,6 @@
 		64B8011F1FA3990B004A6EEE /* trakt_shows_watchedprogress.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_shows_watchedprogress.json; sourceTree = "<group>"; };
 		64B801201FA3990B004A6EEE /* trakt_sync_watchedshows.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_sync_watchedshows.json; sourceTree = "<group>"; };
 		64B801211FA3990B004A6EEE /* trakt_users_settings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_users_settings.json; sourceTree = "<group>"; };
-		64B801221FA3990B004A6EEE /* JSONParsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsers.swift; sourceTree = "<group>"; };
 		64B8012F1FA3A50A004A6EEE /* TraktTestsResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TraktTestsResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		64B801311FA3A50A004A6EEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64B801A11FA788E3004A6EEE /* TraktTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraktTests.swift; sourceTree = "<group>"; };
@@ -125,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				64B801121FA398D7004A6EEE /* Info.plist */,
-				64B801221FA3990B004A6EEE /* JSONParsers.swift */,
 				64B801181FA3990B004A6EEE /* JSONs */,
 				64B801161FA3990B004A6EEE /* ShowsTest.swift */,
 				64B801A11FA788E3004A6EEE /* TraktTests.swift */,
@@ -350,7 +347,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				64B801241FA39911004A6EEE /* ShowsTest.swift in Sources */,
-				64B801231FA39911004A6EEE /* JSONParsers.swift in Sources */,
 				64B801A21FA788E3004A6EEE /* TraktTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

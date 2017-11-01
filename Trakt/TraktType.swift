@@ -1,6 +1,6 @@
 import Moya
 
-public protocol TraktType: TargetType, Hashable {}
+public protocol TraktType: TargetType, AccessTokenAuthorizable, Hashable {}
 
 public extension TraktType {
 
@@ -8,9 +8,11 @@ public extension TraktType {
 
   public var method: Moya.Method { return .get }
 
-  public var parameterEncoding: ParameterEncoding { return URLEncoding.default }
+  public var headers: [String: String]? { return nil }
 
-  public var task: Task { return .request }
+  public var task: Task { return .requestPlain }
+
+  public var authorizationType: AuthorizationType { return .none }
 
   public var sampleData: Data {
     return "".utf8Encoded
@@ -19,13 +21,7 @@ public extension TraktType {
   public var hashValue: Int {
     let typeName = String(reflecting: self)
 
-    var hash = typeName.hashValue ^ path.hashValue ^ method.hashValue
-
-    parameters?.forEach { (key, _) in
-      hash ^= key.hashValue
-    }
-
-    return hash
+    return typeName.hashValue ^ path.hashValue ^ method.hashValue
   }
 
   public static func == (lhs: Self, rhs: Self) -> Bool {

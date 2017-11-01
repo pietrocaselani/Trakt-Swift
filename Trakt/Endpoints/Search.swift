@@ -17,13 +17,17 @@ extension Search: TraktType {
     }
   }
 
-  public var parameters: [String: Any]? {
+  public var task: Task {
+    let params: [String: Any]
+
     switch self {
     case .idLookup(_, _, let types, let page, let limit):
-      return ["type": types.map { $0.rawValue }.joined(separator: ","), "page": page ?? 0, "limit": limit ?? 10]
+      params = ["type": types.map { $0.rawValue }.joined(separator: ","), "page": page ?? 0, "limit": limit ?? 10]
     case .textQuery(_, let query, let page, let limit):
-      return ["query": query, "page": page ?? 0, "limit": limit ?? 10]
+      params = ["query": query, "page": page ?? 0, "limit": limit ?? 10]
     }
+
+    return .requestParameters(parameters: params, encoding: URLEncoding.default)
   }
 
   public var sampleData: Data {

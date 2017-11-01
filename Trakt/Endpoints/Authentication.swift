@@ -11,18 +11,15 @@ extension Authentication: TraktType {
 
   public var method: Moya.Method { return .post }
 
-  public var parameters: [String : Any]? {
+  public var task: Task {
     switch self {
     case .accessToken(let code, let clientId, let clientSecret, let redirectURL, let grantType):
-      return ["code": code,
-              "client_id": clientId,
-              "client_secret": clientSecret,
-              "redirect_uri": redirectURL,
-              "grant_type": grantType]
+      let parameters = ["code": code,
+                        "client_id": clientId,
+                        "client_secret": clientSecret,
+                        "redirect_uri": redirectURL,
+                        "grant_type": grantType]
+      return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
     }
-  }
-
-  public var parameterEncoding: ParameterEncoding {
-    return JSONEncoding.default
   }
 }
