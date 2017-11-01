@@ -18,24 +18,24 @@ public final class ShowIds: BaseIds {
     super.init(trakt: trakt, tmdb: tmdb, imdb: imdb)
   }
   
-	public override required init(from decoder: Decoder) throws {
+	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.slug = try container.decode(String.self, forKey: .slug)
 		self.tvdb = try container.decode(Int.self, forKey: .tvdb)
 		self.tvrage = try container.decodeIfPresent(Int.self, forKey: .tvrage)
 
-		super.init(from: decoder)
+		try super.init(from: decoder)
 	}
 
 	public override func encode(to encoder: Encoder) throws {
-		let container = encoder.container(keyedBy: CodingKeys.self)
+		var container = encoder.container(keyedBy: CodingKeys.self)
 
 		try container.encode(slug, forKey: .slug)
 		try container.encode(tvdb, forKey: .tvdb)
 		try container.encodeIfPresent(tvrage, forKey: .tvrage)
 
-		super.encode(to: encoder)
+		try super.encode(to: encoder)
 	}
   
   public override var hashValue: Int {

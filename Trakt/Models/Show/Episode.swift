@@ -15,27 +15,20 @@ public final class Episode: StandardMediaEntity {
 	}
 
 	public required init(from decoder: Decoder) throws {
-		let container = decoder.container(keyedBy: CodingKeys.self)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.season = try container.decode(Int.self, forKey: .season)
 		self.number = try container.decode(Int.self, forKey: .number)
 		self.ids = try container.decode(EpisodeIds.self, forKey: .ids)
 		self.absoluteNumber = try container.decodeIfPresent(Int.self, forKey: .season)
 		self.runtime = try container.decodeIfPresent(Int.self, forKey: .season)
+
 		let firstAired = try container.decodeIfPresent(String.self, forKey: .firstAired)
 		self.firstAired = TraktDateTransformer.dateTimeTransformer.transformFromJSON(firstAired)
+
+		try super.init(from: decoder)
 	}
-  
-  public required init(map: Map) throws {
-    self.season = try map.value("season")
-    self.number = try map.value("number")
-    self.ids = try map.value("ids")
-    self.absoluteNumber = try? map.value("number_abs")
-    self.firstAired = try? map.value("first_aired", using: TraktDateTransformer.dateTimeTransformer)
-    self.runtime = try? map.value("runtime")
-    try super.init(map: map)
-  }
-  
+
   public override var hashValue: Int {
     var hash = super.hashValue ^ season.hashValue ^ number.hashValue ^ ids.hashValue
     

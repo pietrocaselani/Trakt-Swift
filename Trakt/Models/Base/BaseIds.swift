@@ -14,19 +14,19 @@ public class BaseIds: Codable, Hashable, CustomStringConvertible {
   }
 
 	public required init(from decoder: Decoder) throws {
-		let container = decoder.container(keyedBy: CodingKeys)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.trakt = container.decode(Int.self, forKey: .trakt)
-		self.tmdb = container.decodeIfPresent(Int.self, forKey: .tmdb)
-		self.imdb = container.decodeIfPresent(String.self, forKey: .imdb)
+		self.trakt = try container.decode(Int.self, forKey: .trakt)
+		self.tmdb = try container.decodeIfPresent(Int.self, forKey: .tmdb)
+		self.imdb = try container.decodeIfPresent(String.self, forKey: .imdb)
 	}
 
 	public func encode(to encoder: Encoder) throws {
-		let container = encoder.container(keyedBy: CodingKeys.self)
+		var container = encoder.container(keyedBy: CodingKeys.self)
 
-		container.encode(trakt, forKey: .trakt)
-		container.encodeIfPresent(tmdb, forKey: .tmdb)
-		container.encodeIfPresent(imdb, forKey: .imdb)
+		try container.encode(trakt, forKey: .trakt)
+		try container.encodeIfPresent(tmdb, forKey: .tmdb)
+		try container.encodeIfPresent(imdb, forKey: .imdb)
 	}
 
   public var hashValue: Int {

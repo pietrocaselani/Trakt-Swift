@@ -19,22 +19,27 @@ public final class User: Codable, Hashable {
 	}
 
 	public required init(from decoder: Decoder) throws {
-		let container = try decoder.container(keyedBy: User.self)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.username = try container.decode(String.self, .username)
-		self.isPrivate = try container.decode(Bool.self, .isPrivate)
-		self.name = try container.decode(String.self, .name)
-		self.vip = try container.decode(Bool.self, .vip)
-		self.vipExecuteProducer = try container.decode(Bool.self, .vipExecuteProducer)
-		self.ids = try container.decode(UserIds.self, .ids)
-		self.location = try container.decode(String.self, .location)
-		self.about = try container.decode(String.self, .about)
-		self.gender = try container.decode(String.self, .gender)
-		self.age = try container.decode(Int.self, .age)
-		self.images = try container.decode(Images.self, .images)
+		self.username = try container.decode(String.self, forKey: .username)
+		self.isPrivate = try container.decode(Bool.self, forKey: .isPrivate)
+		self.name = try container.decode(String.self, forKey: .name)
+		self.vip = try container.decode(Bool.self, forKey: .vip)
+		self.vipExecuteProducer = try container.decode(Bool.self, forKey: .vipExecuteProducer)
+		self.ids = try container.decode(UserIds.self, forKey: .ids)
+		self.location = try container.decode(String.self, forKey: .location)
+		self.about = try container.decode(String.self, forKey: .about)
+		self.gender = try container.decode(String.self, forKey: .gender)
+		self.age = try container.decode(Int.self, forKey: .age)
+		self.images = try container.decode(Images.self, forKey: .images)
 
-		let joinedAt = try container.decode(String.self, .joinedAt)
-		self.joinedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(joinedAt)
+		let joinedAt = try container.decode(String.self, forKey: .joinedAt)
+		guard let joinedAtDate = TraktDateTransformer.dateTimeTransformer.transformFromJSON(joinedAt) else {
+			let message = "JSON key: joined_at - Value: \(joinedAt) - Error: Could not transform to date"
+			throw TraktError.missingJSONValie(message: message)
+		}
+
+		self.joinedAt = joinedAtDate
 	}
 
   public var hashValue: Int {

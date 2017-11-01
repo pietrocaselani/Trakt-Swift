@@ -5,20 +5,20 @@ public final class TrendingShow: BaseTrendingEntity {
 		case show
 	}
 
-	public init(from decoder: Decoder) throws {
+	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.show = container.decode(Show.self, .show)
+		self.show = try container.decode(Show.self, forKey: .show)
 
-		super.init(from: decoder)
+		try super.init(from: decoder)
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	public override func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 
-		container.encode(show, forKey: .show)
+		try container.encode(show, forKey: .show)
 
-		super.encode(to: encoder)
+		try super.encode(to: encoder)
 	}
 
   public override var hashValue: Int {

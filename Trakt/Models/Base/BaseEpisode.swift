@@ -22,7 +22,7 @@ public final class BaseEpisode: Codable, Hashable {
 		self.plays = try container.decodeIfPresent(Int.self, forKey: .plays)
 		self.completed = try container.decodeIfPresent(Bool.self, forKey: .completed)
 
-		collectedAt = try container.decodeIfPresent(String.self, forKey: .collectedAt)
+		let collectedAt = try container.decodeIfPresent(String.self, forKey: .collectedAt)
 		self.collectedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(collectedAt)
 
 		let lastWatchedAt = try container.decodeIfPresent(String.self, forKey: .lastWatchedAt)

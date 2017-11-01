@@ -20,7 +20,7 @@ public final class Show: StandardMediaEntity {
 		case firstAired = "first_aired"
 	}
 
-	public override required init(from decoder: Decoder) throws {
+	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.year = try container.decode(Int.self, forKey: .year)
@@ -38,6 +38,8 @@ public final class Show: StandardMediaEntity {
 
 		let firstAired = try container.decodeIfPresent(String.self, forKey: .firstAired)
 		self.firstAired = TraktDateTransformer.dateTimeTransformer.transformFromJSON(firstAired)
+
+		try super.init(from: decoder)
 	}
   
   public override var hashValue: Int {

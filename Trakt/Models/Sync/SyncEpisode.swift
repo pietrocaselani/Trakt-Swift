@@ -25,14 +25,14 @@ public struct SyncEpisode: Codable {
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.ids = try container.decode(String.self, .ids)
-		self.season = try container.decodeIfPresent(Int.self, .season)
-		self.number = try container.decodeIfPresent(Int.self, .number)
-		self.rating = try container.decodeIfPresent(Rating.self, .rating)
+		self.ids = try container.decode(EpisodeIds.self, forKey: .ids)
+		self.season = try container.decodeIfPresent(Int.self, forKey: .season)
+		self.number = try container.decodeIfPresent(Int.self, forKey: .number)
+		self.rating = try container.decodeIfPresent(Rating.self, forKey: .rating)
 
-		let watchedAt = try container.decodeIfPresent(String.self, .watchedAt)
-		let collectedAt = try container.decodeIfPresent(String.self, .collectedAt)
-		let ratedAt = try container.decodeIfPresent(String.self, .ratedAt)
+		let watchedAt = try container.decodeIfPresent(String.self, forKey: .watchedAt)
+		let collectedAt = try container.decodeIfPresent(String.self, forKey: .collectedAt)
+		let ratedAt = try container.decodeIfPresent(String.self, forKey: .ratedAt)
 
 		self.watchedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(watchedAt)
 		self.collectedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(collectedAt)
@@ -40,7 +40,7 @@ public struct SyncEpisode: Codable {
 	}
 
 	public func encode(to encoder: Encoder) throws {
-		let container = encoder.container(keyedBy: CodingKeys.self)
+		var container = encoder.container(keyedBy: CodingKeys.self)
 
 		try container.encode(ids, forKey: .ids)
 		try container.encodeIfPresent(season, forKey: .season)

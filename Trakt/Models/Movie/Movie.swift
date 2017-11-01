@@ -15,10 +15,10 @@ public final class Movie: StandardMediaEntity {
 	}
 
 	public required init(from decoder: Decoder) throws {
-		let container = try decoder.container(keyedBy: CodingKey.self)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.year = try container.decode(Int.self, forKey: .year)
-		self.ids = try container.decode(Int.self, forKey: .ids)
+		self.ids = try container.decode(MovieIds.self, forKey: .ids)
 		self.certification = try container.decodeIfPresent(String.self, forKey: .certification)
 		self.tagline = try container.decodeIfPresent(String.self, forKey: .tagline)
 		self.runtime = try container.decodeIfPresent(Int.self, forKey: .runtime)
@@ -29,6 +29,8 @@ public final class Movie: StandardMediaEntity {
 
 		let released = try container.decodeIfPresent(String.self, forKey: .released)
 		self.released = TraktDateTransformer.dateTransformer.transformFromJSON(released)
+
+		try super.init(from: decoder)
 	}
 
   public override var hashValue: Int {

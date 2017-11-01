@@ -28,9 +28,9 @@ public struct SyncResponse: Codable {
 	public func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 
-		try encoder.encodeIfPresent(added, forKey: .added)
-		try encoder.encodeIfPresent(existing, forKey: .existing)
-		try encoder.encodeIfPresent(deleted, forKey: .deleted)
-		try encoder.encodeIfPresent(notFound, forKey: .notFound)
+		try container.encodeIfPresent(added, forKey: .added)
+		try container.encodeIfPresent(existing, forKey: .existing)
+		try container.encodeIfPresent(deleted, forKey: .deleted)
+		try container.encodeIfPresent(notFound, forKey: .notFound)
 	}
 }

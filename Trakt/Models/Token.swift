@@ -56,7 +56,7 @@ public final class Token: NSObject, Codable, NSCoding {
   }
 
 	public func encode(to encoder: Encoder) throws {
-		let container = encoder.container(keyedBy: CodingKeys.self)
+		var container = encoder.container(keyedBy: CodingKeys.self)
 
 		try container.encode(accessToken, forKey: .accessToken)
 		try container.encode(expiresIn.timeIntervalSinceNow, forKey: .expiresIn)

@@ -16,7 +16,7 @@ public struct SyncItems: Codable {
   }
 
 	public init(from decoder: Decoder) throws {
-		let container = decoder.container(keyedBy: CodingKeys.self)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.movies = try container.decodeIfPresent([SyncMovie].self, forKey: .movies)
 		self.shows = try container.decodeIfPresent([SyncShow].self, forKey: .shows)
@@ -32,18 +32,5 @@ public struct SyncItems: Codable {
 		try container.encodeIfPresent(episodes, forKey: .episodes)
 		try container.encodeIfPresent(ids, forKey: .ids)
 	}
-  
-  public init(map: Map) throws {
-    self.movies = try? map.value("movies")
-    self.shows = try? map.value("shows")
-    self.episodes = try? map.value("episodes")
-    self.ids = try? map.value("ids")
-  }
-  
-  public func mapping(map: Map) {
-    self.movies >>> map["movies"]
-    self.shows >>> map["shows"]
-    self.episodes >>> map["episodes"]
-    self.ids >>> map["ids"]
-  }  
+
 }

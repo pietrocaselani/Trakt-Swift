@@ -14,10 +14,10 @@ public final class EpisodeIds: BaseIds {
 
 	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.tvdb = container.decode(Int.self, forKey: .tvdb)
-		self.tvrage = container.decodeIfPresent(Int.self, forKey: .tvrage)
+		self.tvdb = try container.decode(Int.self, forKey: .tvdb)
+		self.tvrage = try container.decodeIfPresent(Int.self, forKey: .tvrage)
 
-		super.init(from: decoder)
+		try super.init(from: decoder)
 	}
 
 	public override func encode(to encoder: Encoder) throws {
@@ -26,7 +26,7 @@ public final class EpisodeIds: BaseIds {
 		try container.encode(tvdb, forKey: .tvdb)
 		try container.encodeIfPresent(tvrage, forKey: .tvrage)
 
-		super.encode(to: encoder)
+		try super.encode(to: encoder)
 	}
   
   public override var hashValue: Int {

@@ -28,11 +28,16 @@ public struct SyncSeason: Codable {
 		self.episodes = try container.decodeIfPresent([SyncEpisode].self, forKey: .episodes)
 		self.rating = try container.decodeIfPresent(Rating.self, forKey: .rating)
 
-		let watchedAt = try container.decodeIfPresent(String.self, forKey: .watchedAt)
+		let watchedAt = try container.decode(String.self, forKey: .watchedAt)
 		let collectedAt = try container.decodeIfPresent(String.self, forKey: .collectedAt)
 		let ratedAt = try container.decodeIfPresent(String.self, forKey: .ratedAt)
 
-		self.watchedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(watchedAt)
+		guard let watchedDate = TraktDateTransformer.dateTimeTransformer.transformFromJSON(watchedAt) else {
+			let message = "JSON key: watched_at - Value: \(watchedAt) - Error: Could not transform to date"
+			throw TraktError.missingJSONValie(message: message)
+		}
+
+		self.watchedAt = watchedDate
 		self.collectedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(collectedAt)
 		self.ratedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(ratedAt)
 	}
@@ -40,5 +45,4 @@ public struct SyncSeason: Codable {
 	public func encode(to encoder: Encoder) throws {
 
 	}
-
 }

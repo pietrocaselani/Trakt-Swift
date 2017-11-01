@@ -16,15 +16,15 @@ public class StandardMediaEntity: Codable, Hashable {
 	}
 
 	public required init(from decoder: Decoder) throws {
-		let container = decoder.container(keyedBy: CodingKeys.self)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.title = container.decodeIfPresent(String.self, forKey: .title)
-		self.overview = container.decodeIfPresent(String.self, forKey: .overview)
-		self.rating = container.decodeIfPresent(Double.self, forKey: .rating)
-		self.votes = container.decodeIfPresent(Int.self, forKey: .votes)
-		self.translations = container.decodeIfPresent([String.self], forKey: .translations)
+		self.title = try container.decodeIfPresent(String.self, forKey: .title)
+		self.overview = try container.decodeIfPresent(String.self, forKey: .overview)
+		self.rating = try container.decodeIfPresent(Double.self, forKey: .rating)
+		self.votes = try container.decodeIfPresent(Int.self, forKey: .votes)
+		self.translations = try container.decodeIfPresent([String].self, forKey: .translations)
 
-		let updatedAt = container.decodeIfPresent(String.self, forKey: .updatedAt)
+		let updatedAt = try container.decodeIfPresent(String.self, forKey: .updatedAt)
 		self.updatedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(updatedAt)
 	}
 

@@ -1,6 +1,5 @@
 import Moya
 import RxSwift
-import Moya_ObjectMapper
 
 public final class Trakt {
   let clientId: String
@@ -74,7 +73,7 @@ public final class Trakt {
       .filterSuccessfulStatusCodes()
       .flatMap { [unowned self] response -> Observable<AuthenticationResult> in
         do {
-          self.accessToken = try response.mapObject(Token.self)
+          self.accessToken = try response.map(Token.self)
           return Observable.just(AuthenticationResult.authenticated)
         } catch {
           return Observable.error(error)

@@ -1,73 +1,89 @@
 import Foundation
 
 public final class BaseShow: Codable, Hashable {
-  public let show: Show?
-  public let seasons: [BaseSeason]?
-  public let lastCollectedAt: Date?
-  public let listedAt: Date?
-  public let plays: Int?
-  public let lastWatchedAt: Date?
-  public let aired: Int?
-  public let completed: Int?
-  public let hiddenSeasons: [Season]?
-  public let nextEpisode: Episode?
+	public let show: Show?
+	public let seasons: [BaseSeason]?
+	public let lastCollectedAt: Date?
+	public let listedAt: Date?
+	public let plays: Int?
+	public let lastWatchedAt: Date?
+	public let aired: Int?
+	public let completed: Int?
+	public let hiddenSeasons: [Season]?
+	public let nextEpisode: Episode?
 
-  public required init(map: Map) throws {
-    self.show = try? map.value("show")
-    self.seasons = try? map.value("seasons")
-    self.lastCollectedAt = try? map.value("last_collected_at", using: TraktDateTransformer.dateTimeTransformer)
-    self.listedAt = try? map.value("listed_at", using: TraktDateTransformer.dateTimeTransformer)
-    self.plays = try? map.value("plays")
-    self.lastWatchedAt = try? map.value("last_watched_at", using: TraktDateTransformer.dateTimeTransformer)
-    self.aired = try? map.value("aired")
-    self.completed = try? map.value("completed")
-    self.hiddenSeasons = try? map.value("hidden_seasons")
-    self.nextEpisode = try? map.value("next_episode")
-  }
+	private enum CodingKeys: String, CodingKey {
+		case show, seasons, plays, aired, completed
+		case lastCollectedAt = "last_collected_at"
+		case listedAt = "listed_at"
+		case lastWatchedAt = "last_watched_at"
+		case hiddenSeasons = "hidden_seasons"
+		case nextEpisode = "next_episode"
+	}
 
-  public var hashValue: Int {
-    var hash = 11
+	public required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-    if let showHash = show?.hashValue {
-      hash = hash ^ showHash
-    }
+		self.show = try container.decodeIfPresent(Show.self, forKey: .show)
+		self.seasons = try container.decodeIfPresent([BaseSeason].self, forKey: .seasons)
+		self.plays = try container.decodeIfPresent(Int.self, forKey: .plays)
+		self.aired = try container.decodeIfPresent(Int.self, forKey: .aired)
+		self.completed = try container.decodeIfPresent(Int.self, forKey: .completed)
+		self.hiddenSeasons = try container.decodeIfPresent([Season].self, forKey: .hiddenSeasons)
+		self.nextEpisode = try container.decodeIfPresent(Episode.self, forKey: .nextEpisode)
 
-    seasons?.forEach { hash = hash ^ $0.hashValue }
+		let lastCollectedAt = try container.decodeIfPresent(String.self, forKey: .lastCollectedAt)
+		let listedAt = try container.decodeIfPresent(String.self, forKey: .listedAt)
+		let lastWatchedAt = try container.decodeIfPresent(String.self, forKey: .lastWatchedAt)
 
-    if let lastCollectedAtHash = lastCollectedAt?.hashValue {
-      hash = hash ^ lastCollectedAtHash
-    }
+		self.lastCollectedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(lastCollectedAt)
+		self.listedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(listedAt)
+		self.lastWatchedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(lastWatchedAt)
+	}
 
-    if let listedAtHash = listedAt?.hashValue {
-      hash = hash ^ listedAtHash
-    }
+	public var hashValue: Int {
+		var hash = 11
 
-    if let playsHash = plays?.hashValue {
-      hash = hash ^ playsHash
-    }
+		if let showHash = show?.hashValue {
+			hash = hash ^ showHash
+		}
 
-    if let lastWatchedAtHash = lastWatchedAt?.hashValue {
-      hash = hash ^ lastWatchedAtHash
-    }
+		seasons?.forEach { hash = hash ^ $0.hashValue }
 
-    if let airedHash = aired?.hashValue {
-      hash = hash ^ airedHash
-    }
+		if let lastCollectedAtHash = lastCollectedAt?.hashValue {
+			hash = hash ^ lastCollectedAtHash
+		}
 
-    if let completedHash = completed?.hashValue {
-      hash = hash ^ completedHash
-    }
+		if let listedAtHash = listedAt?.hashValue {
+			hash = hash ^ listedAtHash
+		}
 
-    hiddenSeasons?.forEach { hash = hash ^ $0.hashValue }
+		if let playsHash = plays?.hashValue {
+			hash = hash ^ playsHash
+		}
 
-    if let nextEpisodeHash = nextEpisode?.hashValue {
-      hash = hash ^ nextEpisodeHash
-    }
+		if let lastWatchedAtHash = lastWatchedAt?.hashValue {
+			hash = hash ^ lastWatchedAtHash
+		}
 
-    return hash
-  }
+		if let airedHash = aired?.hashValue {
+			hash = hash ^ airedHash
+		}
 
-  public static func == (lhs: BaseShow, rhs: BaseShow) -> Bool {
-    return lhs.hashValue == rhs.hashValue
-  }
+		if let completedHash = completed?.hashValue {
+			hash = hash ^ completedHash
+		}
+
+		hiddenSeasons?.forEach { hash = hash ^ $0.hashValue }
+
+		if let nextEpisodeHash = nextEpisode?.hashValue {
+			hash = hash ^ nextEpisodeHash
+		}
+
+		return hash
+	}
+
+	public static func == (lhs: BaseShow, rhs: BaseShow) -> Bool {
+		return lhs.hashValue == rhs.hashValue
+	}
 }

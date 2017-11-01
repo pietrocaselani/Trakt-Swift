@@ -9,12 +9,12 @@ public final class BaseSeason: Codable, Hashable {
 	}
 
 	public required init(from decoder: Decoder) throws {
-		let container = decoder.container(keyedBy: CodingKeys)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.number = container.decode(Int.self, forKey: .number)
-		self.episodes = container.decode([BaseEpisode.self], forKey: .episodes)
-		self.aired = container.decodeIfPresent(Int.self, forKey: .aired)
-		self.completed = container.decodeIfPresent(Int.self, forKey: .completed)
+		self.number = try container.decode(Int.self, forKey: .number)
+		self.episodes = try container.decode([BaseEpisode].self, forKey: .episodes)
+		self.aired = try container.decodeIfPresent(Int.self, forKey: .aired)
+		self.completed = try container.decodeIfPresent(Int.self, forKey: .completed)
 	}
   
   public var hashValue: Int {

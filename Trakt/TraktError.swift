@@ -1,6 +1,7 @@
 public enum TraktError: Error, Hashable {
   case cantAuthenticate(message: String)
   case authenticateError(statusCode: Int, response: String?)
+	case missingJSONValie(message: String)
 
   public var hashValue: Int {
     var hash = self.localizedDescription.hashValue
@@ -13,6 +14,8 @@ public enum TraktError: Error, Hashable {
         hash ^= responseHash
       }
       hash ^= statusCode.hashValue
+		case .missingJSONValie(let message):
+			hash ^= message.hashValue
     }
 
     return hash
