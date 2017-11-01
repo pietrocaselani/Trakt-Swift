@@ -36,7 +36,7 @@ public final class User: Codable, Hashable {
 		let joinedAt = try container.decode(String.self, forKey: .joinedAt)
 		guard let joinedAtDate = TraktDateTransformer.dateTimeTransformer.transformFromJSON(joinedAt) else {
 			let message = "JSON key: joined_at - Value: \(joinedAt) - Error: Could not transform to date"
-			throw TraktError.missingJSONValie(message: message)
+			throw TraktError.missingJSONValue(message: message)
 		}
 
 		self.joinedAt = joinedAtDate

@@ -28,7 +28,7 @@ public final class EpisodeIds: BaseIds {
 
 		try super.encode(to: encoder)
 	}
-  
+
   public override var hashValue: Int {
     var hash = super.hashValue ^ tvdb.hashValue
     if let tvrageHash = tvrage?.hashValue {

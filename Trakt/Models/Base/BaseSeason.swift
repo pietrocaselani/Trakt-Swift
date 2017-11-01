@@ -16,7 +16,7 @@ public final class BaseSeason: Codable, Hashable {
 		self.aired = try container.decodeIfPresent(Int.self, forKey: .aired)
 		self.completed = try container.decodeIfPresent(Int.self, forKey: .completed)
 	}
-  
+
   public var hashValue: Int {
     var hash = number.hashValue
 
@@ -33,7 +33,7 @@ public final class BaseSeason: Codable, Hashable {
     return hash
   }
 
-  public static func ==(lhs: BaseSeason, rhs: BaseSeason) -> Bool {
+  public static func == (lhs: BaseSeason, rhs: BaseSeason) -> Bool {
     return lhs.hashValue == rhs.hashValue
   }
 }

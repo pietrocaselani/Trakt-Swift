@@ -11,7 +11,8 @@ public struct SyncShow: Codable {
 		case ratedAt = "rated_at"
 	}
 
-	public init(ids: ShowIds, seasons: [SyncSeason]?, collectedAt: Date?, watchedAt: Date?, ratedAt: Date?, rating: Rating?) {
+	public init(ids: ShowIds, seasons: [SyncSeason]?, collectedAt: Date?,
+	            watchedAt: Date?, ratedAt: Date?, rating: Rating?) {
 		self.ids = ids
 		self.seasons = seasons
 		self.collectedAt = collectedAt

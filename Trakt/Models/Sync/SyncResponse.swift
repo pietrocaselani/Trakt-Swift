@@ -8,7 +8,7 @@ public struct SyncResponse: Codable {
 		case added, existing, deleted
 		case notFound = "not_found"
 	}
-  
+
   public init(added: SyncStats?, existing: SyncStats?, deleted: SyncStats?, notFound: SyncStats?) {
     self.added = added
     self.existing = existing

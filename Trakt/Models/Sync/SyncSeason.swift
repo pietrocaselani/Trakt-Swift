@@ -1,9 +1,9 @@
 public struct SyncSeason: Codable {
-  public let number: Int
-  public let watchedAt: Date
-  public let episodes: [SyncEpisode]?
-  public let collectedAt, ratedAt: Date?
-  public let rating: Rating?
+	public let number: Int
+	public let watchedAt: Date
+	public let episodes: [SyncEpisode]?
+	public let collectedAt, ratedAt: Date?
+	public let rating: Rating?
 
 	private enum CodingKeys: String, CodingKey {
 		case number, episodes, rating
@@ -11,15 +11,16 @@ public struct SyncSeason: Codable {
 		case collectedAt = "collected_at"
 		case ratedAt = "rated_at"
 	}
-  
-  public init(number: Int, watchedAt: Date, episodes: [SyncEpisode]?, collectedAt: Date?, ratedAt: Date?, rating: Rating?) {
-    self.number = number
-    self.watchedAt = watchedAt
-    self.episodes = episodes
-    self.collectedAt = collectedAt
-    self.ratedAt = ratedAt
-    self.rating = rating
-  }
+
+	public init(number: Int, watchedAt: Date, episodes: [SyncEpisode]?,
+	            collectedAt: Date?, ratedAt: Date?, rating: Rating?) {
+		self.number = number
+		self.watchedAt = watchedAt
+		self.episodes = episodes
+		self.collectedAt = collectedAt
+		self.ratedAt = ratedAt
+		self.rating = rating
+	}
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -34,7 +35,7 @@ public struct SyncSeason: Codable {
 
 		guard let watchedDate = TraktDateTransformer.dateTimeTransformer.transformFromJSON(watchedAt) else {
 			let message = "JSON key: watched_at - Value: \(watchedAt) - Error: Could not transform to date"
-			throw TraktError.missingJSONValie(message: message)
+			throw TraktError.missingJSONValue(message: message)
 		}
 
 		self.watchedAt = watchedDate

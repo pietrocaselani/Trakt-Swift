@@ -41,52 +41,52 @@ public final class Show: StandardMediaEntity {
 
 		try super.init(from: decoder)
 	}
-  
+
   public override var hashValue: Int {
     var hash = super.hashValue ^ year.hashValue ^ ids.hashValue
-    
+
     if let firstAiredHash = firstAired?.hashValue {
       hash = hash ^ firstAiredHash
     }
-    
+
     if let airsHash = airs?.hashValue {
       hash = hash ^ airsHash
     }
-    
+
     if let runtimeHash = runtime?.hashValue {
       hash = hash ^ runtimeHash
     }
-    
+
     if let certificationHash = certification?.hashValue {
       hash = hash ^ certificationHash
     }
-    
+
     if let networkHash = network?.hashValue {
       hash = hash ^ networkHash
     }
-    
+
     if let countryHash = country?.hashValue {
       hash = hash ^ countryHash
     }
-    
+
     if let trailerHash = trailer?.hashValue {
       hash = hash ^ trailerHash
     }
-    
+
     if let homepageHash = homepage?.hashValue {
       hash = hash ^ homepageHash
     }
-    
+
     if let statusHash = status?.hashValue {
       hash = hash ^ statusHash
     }
-    
+
     if let languageHash = language?.hashValue {
       hash = hash ^ languageHash
     }
-    
+
     genres?.forEach { hash = hash ^ $0.hashValue }
-    
+
     return hash
   }
 }

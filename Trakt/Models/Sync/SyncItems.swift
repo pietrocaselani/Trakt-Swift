@@ -7,7 +7,7 @@ public struct SyncItems: Codable {
 	private enum CodingKeys: String, CodingKey {
 		case movies, shows, episodes, ids
 	}
-  
+
   public init(movies: [SyncMovie]? = nil, shows: [SyncShow]? = nil, episodes: [SyncEpisode]? = nil, ids: [Int]? = nil) {
     self.movies = movies
     self.shows = shows

@@ -10,7 +10,7 @@ public struct SyncEpisode: Codable {
 		case collectedAt = "collected_at"
 		case ratedAt = "rated_at"
 	}
-  
+
   public init(ids: EpisodeIds, season: Int? = nil, number: Int? = nil, watchedAt: Date? = nil,
               collectedAt: Date? = nil, ratedAt: Date? = nil, rating: Rating? = nil) {
     self.ids = ids
@@ -21,7 +21,7 @@ public struct SyncEpisode: Codable {
     self.ratedAt = ratedAt
     self.rating = rating
   }
-  
+
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 

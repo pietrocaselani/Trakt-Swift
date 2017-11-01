@@ -17,7 +17,7 @@ public final class ShowIds: BaseIds {
     self.tvrage = tvrage
     super.init(trakt: trakt, tmdb: tmdb, imdb: imdb)
   }
-  
+
 	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -37,7 +37,7 @@ public final class ShowIds: BaseIds {
 
 		try super.encode(to: encoder)
 	}
-  
+
   public override var hashValue: Int {
     var hash = super.hashValue ^ slug.hashValue ^ tvdb.hashValue
     if let tvrageHash = tvrage?.hashValue {

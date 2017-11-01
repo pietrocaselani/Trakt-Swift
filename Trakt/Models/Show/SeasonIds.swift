@@ -25,16 +25,16 @@ public final class SeasonIds: Codable, Hashable {
 		try container.encode(trakt, forKey: .trakt)
 		try container.encodeIfPresent(tvrage, forKey: .tvrage)
 	}
-  
+
   public var hashValue: Int {
     var hash = tvdb.hashValue ^ tmdb.hashValue ^ trakt.hashValue
     if let tvrageHash = tvrage?.hashValue {
       hash = hash ^ tvrageHash
     }
-    
+
     return hash
   }
-  
+
   public static func == (lhs: SeasonIds, rhs: SeasonIds) -> Bool {
     return lhs.hashValue == rhs.hashValue
   }

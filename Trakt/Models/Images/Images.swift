@@ -5,7 +5,7 @@ public final class Images: Codable, Hashable {
     return avatar.hashValue
   }
 
-  public static func ==(lhs: Images, rhs: Images) -> Bool {
+  public static func == (lhs: Images, rhs: Images) -> Bool {
     return lhs.hashValue == rhs.hashValue
   }
 }

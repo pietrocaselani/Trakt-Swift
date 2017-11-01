@@ -28,29 +28,29 @@ public final class BaseEpisode: Codable, Hashable {
 		let lastWatchedAt = try container.decodeIfPresent(String.self, forKey: .lastWatchedAt)
 		self.lastWatchedAt = TraktDateTransformer.dateTimeTransformer.transformFromJSON(lastWatchedAt)
 	}
-  
+
   public var hashValue: Int {
     var hash = number.hashValue
-    
+
     if let collectedAtHash = collectedAt?.hashValue {
       hash = hash ^ collectedAtHash
     }
-    
+
     if let playsHash = plays?.hashValue {
       hash = hash ^ playsHash
     }
-    
+
     if let lastWatchedAtHash = lastWatchedAt?.hashValue {
       hash = hash ^ lastWatchedAtHash
     }
-    
+
     if let completedHash = completed?.hashValue {
       hash = hash ^ completedHash
     }
-    
+
     return hash
   }
-  
+
   public static func == (lhs: BaseEpisode, rhs: BaseEpisode) -> Bool {
     return lhs.hashValue == rhs.hashValue
   }
