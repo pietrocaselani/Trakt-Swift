@@ -2,5 +2,5 @@
 
 brew install sonar-scanner
 brew install tailor
-pip install lizard
+sudo pip install lizard
 bundle install
