@@ -1,5 +1,5 @@
 lane :pods do
-	cocoapods(podfile: "Example/")
+	cocoapods(podfile: "Example/", repo_update: true)
 end
 
 lane :tests do
