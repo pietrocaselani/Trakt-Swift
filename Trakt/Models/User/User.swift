@@ -13,9 +13,10 @@ public final class User: Codable, Hashable {
   public let images: Images
 
 	private enum CodingKeys: String, CodingKey {
-		case username, isPrivate, name, vip, ids, location, about, gender, age, images
+		case username, name, vip, ids, location, about, gender, age, images
 		case vipExecuteProducer = "vip_ep"
 		case joinedAt = "joined_at"
+		case isPrivate = "private"
 	}
 
 	public required init(from decoder: Decoder) throws {
