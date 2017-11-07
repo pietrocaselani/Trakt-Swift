@@ -1,10 +1,32 @@
 public final class Airs: Codable, Hashable {
-  public let day: String
-  public let time: String
+  public let day: String?
+  public let time: String?
   public let timezone: String
 
+	private enum CodingKeys: String, CodingKey {
+		case day, time, timezone
+	}
+
+	public required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		self.day = try container.decodeIfPresent(String.self, forKey: .day)
+		self.time = try container.decodeIfPresent(String.self, forKey: .time)
+		self.timezone = try container.decode(String.self, forKey: .timezone)
+	}
+
   public var hashValue: Int {
-    return day.hashValue ^ time.hashValue ^ timezone.hashValue
+		var hash = timezone.hashValue
+
+		if let dayHash = day?.hashValue {
+			hash ^= dayHash
+		}
+
+		if let timeHash = time?.hashValue {
+			hash ^= timeHash
+		}
+
+    return hash
   }
 
   public static func == (lhs: Airs, rhs: Airs) -> Bool {
