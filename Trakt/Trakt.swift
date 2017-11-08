@@ -1,14 +1,19 @@
 import Moya
 import RxSwift
 
-public final class Trakt {
+public class Trakt {
 	private let clientId: String
 	private let clientSecret: String?
 	private let redirectURL: String?
 	private var plugins: [PluginType]
 	private let userDefaults: UserDefaults
 	public let oauthURL: URL?
-	public private(set) var accessToken: Token?
+	public private(set) var accessToken: Token? {
+		didSet {
+			guard let token = accessToken else { return }
+			saveToken(token)
+		}
+	}
 
 	public var hasValidToken: Bool {
 		return accessToken?.expiresIn.compare(Date()) == .orderedDescending
@@ -110,13 +115,13 @@ public final class Trakt {
 		userDefaults.set(tokenData, forKey: Trakt.accessTokenKey)
 	}
 
-	private func createProvider<T:TraktType>(forTarget target: T.Type) -> MoyaProvider<T> {
+	func createProvider<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T> {
 		let endpointClosure = createEndpointClosure(forTarget: target)
 
 		return MoyaProvider<T>(endpointClosure: endpointClosure, plugins: plugins)
 	}
 
-	private func createEndpointClosure<T:TargetType>(forTarget: T.Type) -> MoyaProvider<T>.EndpointClosure {
+	private func createEndpointClosure<T: TargetType>(forTarget: T.Type) -> MoyaProvider<T>.EndpointClosure {
 		let endpointClosure = { (target: T) -> Endpoint<T> in
 			var endpoint = MoyaProvider.defaultEndpointMapping(for: target)
 			endpoint = endpoint.adding(newHTTPHeaderFields: [Trakt.headerContentType: Trakt.contentTypeJSON])

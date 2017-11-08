@@ -22,4 +22,14 @@ extension Authentication: TraktType {
       return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
     }
   }
+
+	public var sampleData: Data {
+		switch self {
+		case .accessToken(let code, _, _, _, _):
+			if code == "my_wrong_code" {
+				return stubbedResponse("trakt_authentication_accesstoken_wrong")
+			}
+			return stubbedResponse("trakt_authentication_accesstoken")
+		}
+	}
 }

@@ -11,6 +11,7 @@ final class TraktTests: XCTestCase {
 	private let clientSecret = "my_awesome_client_secret"
 	private let redirectURL = "couchtracker://my_awesome_url"
 	private let redirectURLValid = "couchtracker://my_awesome_url?code=my_awesome_code"
+	private let redirectURLWrongCode = "couchtracker://my_awesome_url?code=my_wrong_code"
 	private let scheduler = TestScheduler(initialClock: 0)
 	private var trakt: Trakt!
 
@@ -201,7 +202,7 @@ final class TraktTests: XCTestCase {
 		XCTAssertEqual(observer.events, expectedEvents)
 	}
 
-	func testTrakt_forURLWithoutCode__emitsAuthenticationUndetermined() {
+	func testTrakt_forURLWithoutCode_emitsAuthenticationUndetermined() {
 		//Given
 		setupTraktForAuthentication()
 		let request = URLRequest(url: URL(string: redirectURL)!)
@@ -214,5 +215,74 @@ final class TraktTests: XCTestCase {
 		let expectedEvents = [next(0, AuthenticationResult.undetermined), completed(0)]
 
 		XCTAssertEqual(observer.events, expectedEvents)
+	}
+
+	func testTrakt_forURLWithValidCode_shouldSaveToken() {
+		//Given
+		let builder = TraktBuilder {
+			$0.clientId = clientId
+			$0.clientSecret = clientSecret
+			$0.redirectURL = redirectURL
+			$0.userDefaults = userDefaultsMock
+		}
+
+		let trakt = TestableTrakt(builder: builder)
+
+		let request = URLRequest(url: URL(string: redirectURLValid)!)
+
+		//When
+		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe()
+
+		//Then
+		let tokenData = userDefaultsMock.object(forKey: Trakt.accessTokenKey) as? Data
+		if let tokenData = tokenData, let token = NSKeyedUnarchiver.unarchiveObject(with: tokenData) as? Token {
+			XCTAssertEqual(token.accessToken, "dbaf9757982a9e738f05d249b7b5b4a266b3a139049317c4909f2f263572c781")
+			XCTAssertEqual(token.refreshToken, "76ba4c5c75c96f6087f58a4de10be6c00b29ea1ddc3b2022ee2016d1363e3a7c")
+		} else {
+			XCTFail("Invalid token")
+		}
+	}
+
+	func testTrakt_forURLWithValidCode_shouldAuthenticate() {
+		//Given
+		let builder = TraktBuilder {
+			$0.clientId = clientId
+			$0.clientSecret = clientSecret
+			$0.redirectURL = redirectURL
+			$0.userDefaults = userDefaultsMock
+		}
+
+		let trakt = TestableTrakt(builder: builder)
+
+		let request = URLRequest(url: URL(string: redirectURLValid)!)
+		let observer = scheduler.createObserver(AuthenticationResult.self)
+
+		//When
+		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe(observer)
+
+		//Then
+		let expectedEvents = [next(0, AuthenticationResult.authenticated), completed(0)]
+		XCTAssertEqual(observer.events, expectedEvents)
+	}
+
+	func testTrakt_invalidResponse_shouldEmitError() {
+		//Given
+		let builder = TraktBuilder {
+			$0.clientId = clientId
+			$0.clientSecret = clientSecret
+			$0.redirectURL = redirectURL
+			$0.userDefaults = userDefaultsMock
+		}
+
+		let trakt = TestableTrakt(builder: builder)
+
+		let request = URLRequest(url: URL(string: redirectURLWrongCode)!)
+		let observer = scheduler.createObserver(AuthenticationResult.self)
+
+		//When
+		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe(observer)
+
+		//Then
+		XCTAssertEqual(observer.events.count, 1)
 	}
 }

@@ -43,7 +43,7 @@ extension Sync: TraktType {
   public var sampleData: Data {
     switch self {
     case .watched(let type, _):
-      return type == .shows ? stubbedResponse("trakt_sync_watchedshows") : Data()
+      return type == .shows ? stubbedResponse("trakt_sync_watched_shows") : Data()
     default:
       return Data()
     }
