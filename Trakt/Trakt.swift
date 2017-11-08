@@ -2,109 +2,130 @@ import Moya
 import RxSwift
 
 public final class Trakt {
-  let clientId: String
-  let clientSecret, redirectURL: String?
-  var plugins = [PluginType]()
-  let userDefaults: UserDefaults
-  public let oauthURL: URL?
+	private let clientId: String
+	private let clientSecret: String?
+	private let redirectURL: String?
+	private var plugins: [PluginType]
+	private let userDefaults: UserDefaults
+	public let oauthURL: URL?
+	public private(set) var accessToken: Token?
 
-  public private(set) var accessToken: Token? {
-    didSet {
-      updateAccessTokenPlugin(accessToken)
-    }
-  }
+	public var hasValidToken: Bool {
+		return accessToken?.expiresIn.compare(Date()) == .orderedDescending
+	}
 
-  public var hasValidToken: Bool {
-    return accessToken?.expiresIn.compare(Date()) == .orderedDescending
-  }
+	public lazy var movies: MoyaProvider<Movies> = createProvider(forTarget: Movies.self)
 
-  public convenience init(clientId: String, userDefaults: UserDefaults = UserDefaults.standard) {
-    self.init(clientId: clientId, clientSecret: nil, redirectURL: nil)
-  }
+	public lazy var genres: MoyaProvider<Genres> = createProvider(forTarget: Genres.self)
 
-  public init(clientId: String, clientSecret: String?,
-              redirectURL: String?, userDefaults: UserDefaults = UserDefaults.standard) {
-    self.clientId = clientId
-    self.clientSecret = clientSecret
-    self.redirectURL = redirectURL
+	public lazy var search: MoyaProvider<Search> = createProvider(forTarget: Search.self)
 
-    if let redirectURL = redirectURL {
-      let url = Trakt.siteURL.appendingPathComponent(Trakt.OAuth2AuthorizationPath)
-      var componenets = URLComponents(url: url, resolvingAgainstBaseURL: false)
+	public lazy var shows: MoyaProvider<Shows> = createProvider(forTarget: Shows.self)
 
-      let responseTypeItem = URLQueryItem(name: "response_type", value: "code")
-      let clientIdItem = URLQueryItem(name: "client_id", value: clientId)
-      let redirectURIItem = URLQueryItem(name: "redirect_uri", value: redirectURL)
-      componenets?.queryItems = [responseTypeItem, clientIdItem, redirectURIItem]
+	public lazy var users: MoyaProvider<Users> = createProvider(forTarget: Users.self)
 
-      self.oauthURL = componenets?.url
-    } else {
-      self.oauthURL = nil
-    }
+	public lazy var authentication: MoyaProvider<Authentication> = createProvider(forTarget: Authentication.self)
 
-    self.userDefaults = userDefaults
+	public lazy var sync: MoyaProvider<Sync> = createProvider(forTarget: Sync.self)
 
-    loadToken()
-  }
+	public lazy var episodes: MoyaProvider<Episodes> = createProvider(forTarget: Episodes.self)
 
-  public func addPlugin(_ plugin: PluginType) {
-    plugins.append(plugin)
-  }
+	init(builder: TraktBuilder) {
+		guard let clientId = builder.clientId else {
+			fatalError("Trakt needs a clientId")
+		}
 
-  public func finishesAuthentication(with request: URLRequest) -> Single<AuthenticationResult> {
-    guard let secret = clientSecret, let redirectURL = redirectURL else {
-      let error = TraktError.cantAuthenticate(message: "Trying to authenticate without a secret or redirect URL")
-      return Single.error(error)
-    }
+		guard let userDefaults = builder.userDefaults else {
+			fatalError("Trakt needs an userDefaults")
+		}
 
-    guard let url = request.url, let host = url.host, redirectURL.contains(host) else {
-      return Single.just(AuthenticationResult.undetermined)
-    }
+		self.clientId = clientId
+		self.clientSecret = builder.clientSecret
+		self.redirectURL = builder.redirectURL
+		self.userDefaults = userDefaults
+		self.plugins = builder.plugins ?? [PluginType]()
 
-    let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-    guard let codeItemValue = components?.queryItems?.first(where: { $0.name == "code" })?.value else {
-      return Single.just(AuthenticationResult.undetermined)
-    }
+		if let redirectURL = redirectURL {
+			let url = Trakt.siteURL.appendingPathComponent(Trakt.OAuth2AuthorizationPath)
+			var componenets = URLComponents(url: url, resolvingAgainstBaseURL: false)
 
-    let target = Authentication.accessToken(code: codeItemValue, clientId: clientId, clientSecret: secret,
-        redirectURL: redirectURL, grantType: "authorization_code")
+			let responseTypeItem = URLQueryItem(name: "response_type", value: "code")
+			let clientIdItem = URLQueryItem(name: "client_id", value: clientId)
+			let redirectURIItem = URLQueryItem(name: "redirect_uri", value: redirectURL)
+			componenets?.queryItems = [responseTypeItem, clientIdItem, redirectURIItem]
 
-    return self.authentication.rx.request(target)
-        .filterSuccessfulStatusCodes()
-        .flatMap { [unowned self] response -> Single<AuthenticationResult> in
-          do {
-            self.accessToken = try response.map(Token.self)
-            return Single.just(AuthenticationResult.authenticated)
-          } catch {
-            return Single.error(error)
-          }
-        }
-  }
+			self.oauthURL = componenets?.url
+		} else {
+			self.oauthURL = nil
+		}
 
-  private func loadToken() {
-    let tokenData = userDefaults.object(forKey: Trakt.accessTokenKey) as? Data
-    if let tokenData = tokenData, let token = NSKeyedUnarchiver.unarchiveObject(with: tokenData) as? Token {
-      self.accessToken = token
-    }
-  }
+		loadToken()
 
-  private func saveToken(_ token: Token) {
-    let tokenData = NSKeyedArchiver.archivedData(withRootObject: token)
-    userDefaults.set(tokenData, forKey: Trakt.accessTokenKey)
-  }
+		let accessTokenPlugin = AccessTokenPlugin(tokenClosure: { [unowned self] () -> String in
+			return self.accessToken?.accessToken ?? ""
+		}())
 
-  private func updateAccessTokenPlugin(_ token: Token?) {
-    if let index = self.plugins.index(where: { $0 is AccessTokenPlugin }) {
-      plugins.remove(at: index)
-    }
+		plugins.append(accessTokenPlugin)
+	}
 
-    if let token = token {
-      let plugin = AccessTokenPlugin(tokenClosure: { () -> String in
-        return token.accessToken
-      }())
+	public func finishesAuthentication(with request: URLRequest) -> Single<AuthenticationResult> {
+		guard let secret = clientSecret, let redirectURL = redirectURL else {
+			let error = TraktError.cantAuthenticate(message: "Trying to authenticate without a secret or redirect URL")
+			return Single.error(error)
+		}
 
-      plugins.append(plugin)
-      saveToken(token)
-    }
-  }
+		guard let url = request.url, let host = url.host, redirectURL.contains(host) else {
+			return Single.just(AuthenticationResult.undetermined)
+		}
+
+		let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+		guard let codeItemValue = components?.queryItems?.first(where: { $0.name == "code" })?.value else {
+			return Single.just(AuthenticationResult.undetermined)
+		}
+
+		let target = Authentication.accessToken(code: codeItemValue, clientId: clientId, clientSecret: secret,
+				redirectURL: redirectURL, grantType: "authorization_code")
+
+		return self.authentication.rx.request(target)
+				.filterSuccessfulStatusCodes()
+				.flatMap { [unowned self] response -> Single<AuthenticationResult> in
+					do {
+						self.accessToken = try response.map(Token.self)
+						return Single.just(AuthenticationResult.authenticated)
+					} catch {
+						return Single.error(error)
+					}
+				}
+	}
+
+	private func loadToken() {
+		let tokenData = userDefaults.object(forKey: Trakt.accessTokenKey) as? Data
+		if let tokenData = tokenData, let token = NSKeyedUnarchiver.unarchiveObject(with: tokenData) as? Token {
+			self.accessToken = token
+		}
+	}
+
+	private func saveToken(_ token: Token) {
+		let tokenData = NSKeyedArchiver.archivedData(withRootObject: token)
+		userDefaults.set(tokenData, forKey: Trakt.accessTokenKey)
+	}
+
+	private func createProvider<T:TraktType>(forTarget target: T.Type) -> MoyaProvider<T> {
+		let endpointClosure = createEndpointClosure(forTarget: target)
+
+		return MoyaProvider<T>(endpointClosure: endpointClosure, plugins: plugins)
+	}
+
+	private func createEndpointClosure<T:TargetType>(forTarget: T.Type) -> MoyaProvider<T>.EndpointClosure {
+		let endpointClosure = { (target: T) -> Endpoint<T> in
+			var endpoint = MoyaProvider.defaultEndpointMapping(for: target)
+			endpoint = endpoint.adding(newHTTPHeaderFields: [Trakt.headerContentType: Trakt.contentTypeJSON])
+			endpoint = endpoint.adding(newHTTPHeaderFields: [Trakt.headerTraktAPIKey: self.clientId])
+			endpoint = endpoint.adding(newHTTPHeaderFields: [Trakt.headerTraktAPIVersion: Trakt.apiVersion])
+
+			return endpoint
+		}
+
+		return endpointClosure
+	}
 }

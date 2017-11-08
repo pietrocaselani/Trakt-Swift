@@ -28,7 +28,12 @@ final class TraktTests: XCTestCase {
 	}
 
 	private func setupTrakt() {
-		trakt = Trakt(clientId: clientId, userDefaults: userDefaultsMock)
+		let builder = TraktBuilder {
+			$0.clientId = clientId
+			$0.userDefaults = userDefaultsMock
+		}
+
+		trakt = Trakt(builder: builder)
 	}
 
 	private func setupTraktForAuthentication(_ token: Token? = nil) {
@@ -37,8 +42,35 @@ final class TraktTests: XCTestCase {
 			userDefaultsMock.set(data, forKey: Trakt.accessTokenKey)
 		}
 
-		trakt = Trakt(clientId: clientId, clientSecret: clientSecret,
-		              redirectURL: redirectURL, userDefaults: userDefaultsMock)
+		let builder = TraktBuilder {
+			$0.clientId = clientId
+			$0.clientSecret = clientSecret
+			$0.redirectURL = redirectURL
+			$0.userDefaults = userDefaultsMock
+		}
+
+		trakt = Trakt(builder: builder)
+	}
+
+	func testTrakt_cantCreateInstanceWithoutClientId() {
+		let builder = TraktBuilder {
+			$0.clientId = nil
+		}
+
+		expectFatalError(expectedMessage: "Trakt needs a clientId") {
+			_ = Trakt(builder: builder)
+		}
+	}
+
+	func testTrakt_cantCreateInstanceWithoutUserDefaults() {
+		let builder = TraktBuilder {
+			$0.clientId = clientId
+			$0.userDefaults = nil
+		}
+
+		expectFatalError(expectedMessage: "Trakt needs an userDefaults") {
+			_ = Trakt(builder: builder)
+		}
 	}
 
 	func testTrakt_endpointsHasRequiredHeaders() {
@@ -112,7 +144,13 @@ final class TraktTests: XCTestCase {
 
 	func testTrakt_withoutTraktSecret_authenticationFails() {
 		//Given
-		trakt = Trakt(clientId: clientId, clientSecret: nil, redirectURL: redirectURLValid, userDefaults: userDefaultsMock)
+		let builder = TraktBuilder {
+			$0.clientId = clientId
+			$0.redirectURL = redirectURLValid
+			$0.userDefaults = userDefaultsMock
+		}
+
+		trakt = Trakt(builder: builder)
 		let request = URLRequest(url: authorizeURL)
 		let observer = scheduler.createObserver(AuthenticationResult.self)
 
@@ -128,7 +166,13 @@ final class TraktTests: XCTestCase {
 
 	func testTrakt_withoutRedirectURL_authenticationFails() {
 		//Given
-		trakt = Trakt(clientId: clientId, clientSecret: clientSecret, redirectURL: nil, userDefaults: userDefaultsMock)
+		let builder = TraktBuilder {
+			$0.clientId = clientId
+			$0.clientSecret = clientSecret
+			$0.userDefaults = userDefaultsMock
+		}
+
+		trakt = Trakt(builder: builder)
 		let request = URLRequest(url: authorizeURL)
 		let observer = scheduler.createObserver(AuthenticationResult.self)
 

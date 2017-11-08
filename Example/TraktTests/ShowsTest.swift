@@ -35,7 +35,7 @@ final class ShowsTest: XCTestCase {
     scheduler.start()
 
     guard let expectedShow = try? JSONDecoder().decode(Show.self, from: target.sampleData) else {
-      fatalError("Unable to parse JSON")
+      Swift.fatalError("Unable to parse JSON")
     }
 
     let expectedEvents: [Recorded<Event<Show>>] = [next(0, expectedShow), completed(0)]

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		647DF4C51FB362FB0002039D /* FatalErrorExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647DF4C41FB362FB0002039D /* FatalErrorExpectation.swift */; };
 		64B801241FA39911004A6EEE /* ShowsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B801161FA3990B004A6EEE /* ShowsTest.swift */; };
 		64B801351FA3A510004A6EEE /* trakt_episodes_summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B801191FA3990B004A6EEE /* trakt_episodes_summary.json */; };
 		64B801361FA3A510004A6EEE /* trakt_genres_movies.json in Resources */ = {isa = PBXBuildFile; fileRef = 64B8011A1FA3990B004A6EEE /* trakt_genres_movies.json */; };
@@ -35,6 +36,7 @@
 		12E47DF8A5E9D8C08F80AA4C /* Pods-TraktTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraktTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D2C33C259154CF28E674C53 /* Pods-Trakt_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trakt_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trakt_Example/Pods-Trakt_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5042808C17312594E309AB86 /* Pods_Trakt_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trakt_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		647DF4C41FB362FB0002039D /* FatalErrorExpectation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatalErrorExpectation.swift; sourceTree = "<group>"; };
 		64B801091FA3989F004A6EEE /* UNLICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = UNLICENSE; path = ../UNLICENSE; sourceTree = "<group>"; };
 		64B8010E1FA398D7004A6EEE /* TraktTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TraktTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		64B801121FA398D7004A6EEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				64B801181FA3990B004A6EEE /* JSONs */,
 				64B801161FA3990B004A6EEE /* ShowsTest.swift */,
 				64B801A11FA788E3004A6EEE /* TraktTests.swift */,
+				647DF4C41FB362FB0002039D /* FatalErrorExpectation.swift */,
 			);
 			path = TraktTests;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				647DF4C51FB362FB0002039D /* FatalErrorExpectation.swift in Sources */,
 				64B801241FA39911004A6EEE /* ShowsTest.swift in Sources */,
 				64B801A21FA788E3004A6EEE /* TraktTests.swift in Sources */,
 			);
