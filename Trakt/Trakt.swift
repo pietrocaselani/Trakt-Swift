@@ -29,7 +29,7 @@ public class Trakt {
 	public lazy var sync: MoyaProvider<Sync> = createProvider(forTarget: Sync.self)
 	public lazy var episodes: MoyaProvider<Episodes> = createProvider(forTarget: Episodes.self)
 
-	init(builder: TraktBuilder) {
+	public init(builder: TraktBuilder) {
 		guard let clientId = builder.clientId else {
 			fatalError("Trakt needs a clientId")
 		}
