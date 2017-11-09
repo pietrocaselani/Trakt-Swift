@@ -7,6 +7,7 @@ public class Trakt {
 	private let redirectURL: String?
 	private var plugins: [PluginType]
 	private let userDefaults: UserDefaults
+	private let callbackQueue: DispatchQueue?
 	public let oauthURL: URL?
 	public private(set) var accessToken: Token? {
 		didSet {
@@ -20,19 +21,12 @@ public class Trakt {
 	}
 
 	public lazy var movies: MoyaProvider<Movies> = createProvider(forTarget: Movies.self)
-
 	public lazy var genres: MoyaProvider<Genres> = createProvider(forTarget: Genres.self)
-
 	public lazy var search: MoyaProvider<Search> = createProvider(forTarget: Search.self)
-
 	public lazy var shows: MoyaProvider<Shows> = createProvider(forTarget: Shows.self)
-
 	public lazy var users: MoyaProvider<Users> = createProvider(forTarget: Users.self)
-
 	public lazy var authentication: MoyaProvider<Authentication> = createProvider(forTarget: Authentication.self)
-
 	public lazy var sync: MoyaProvider<Sync> = createProvider(forTarget: Sync.self)
-
 	public lazy var episodes: MoyaProvider<Episodes> = createProvider(forTarget: Episodes.self)
 
 	init(builder: TraktBuilder) {
@@ -49,6 +43,7 @@ public class Trakt {
 		self.redirectURL = builder.redirectURL
 		self.userDefaults = userDefaults
 		self.plugins = builder.plugins ?? [PluginType]()
+		self.callbackQueue = builder.callbackQueue
 
 		if let redirectURL = redirectURL {
 			let url = Trakt.siteURL.appendingPathComponent(Trakt.OAuth2AuthorizationPath)
@@ -118,7 +113,7 @@ public class Trakt {
 	func createProvider<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T> {
 		let endpointClosure = createEndpointClosure(forTarget: target)
 
-		return MoyaProvider<T>(endpointClosure: endpointClosure, plugins: plugins)
+		return MoyaProvider<T>(endpointClosure: endpointClosure, callbackQueue: self.callbackQueue, plugins: plugins)
 	}
 
 	private func createEndpointClosure<T: TargetType>(forTarget: T.Type) -> MoyaProvider<T>.EndpointClosure {

@@ -6,6 +6,7 @@ public final class TraktBuilder {
 	public var redirectURL: String?
 	public var plugins: [PluginType]?
 	public var userDefaults: UserDefaults?
+	public var callbackQueue: DispatchQueue?
 
 	public typealias BuilderClosure = (TraktBuilder) -> Void
 
