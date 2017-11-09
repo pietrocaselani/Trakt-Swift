@@ -2,14 +2,14 @@ public struct SyncResponse: Codable {
   public let added: SyncStats?
   public let existing: SyncStats?
   public let deleted: SyncStats?
-  public let notFound: SyncStats?
+  public let notFound: SyncErrors?
 
 	private enum CodingKeys: String, CodingKey {
 		case added, existing, deleted
 		case notFound = "not_found"
 	}
 
-  public init(added: SyncStats?, existing: SyncStats?, deleted: SyncStats?, notFound: SyncStats?) {
+  public init(added: SyncStats?, existing: SyncStats?, deleted: SyncStats?, notFound: SyncErrors?) {
     self.added = added
     self.existing = existing
     self.deleted = deleted
@@ -22,7 +22,7 @@ public struct SyncResponse: Codable {
 		self.added = try container.decodeIfPresent(SyncStats.self, forKey: .added)
 		self.existing = try container.decodeIfPresent(SyncStats.self, forKey: .existing)
 		self.deleted = try container.decodeIfPresent(SyncStats.self, forKey: .deleted)
-		self.notFound = try container.decodeIfPresent(SyncStats.self, forKey: .notFound)
+		self.notFound = try container.decodeIfPresent(SyncErrors.self, forKey: .notFound)
 	}
 
 	public func encode(to encoder: Encoder) throws {
