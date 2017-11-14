@@ -7,7 +7,7 @@ public class Trakt {
 	private var plugins: [PluginType]
 	private let userDefaults: UserDefaults
 	private let callbackQueue: DispatchQueue?
-	private let dateProvier: DateProvider
+	private let dateProvider: DateProvider
 	private var interceptors = [RequestInterceptor]()
 	public let oauthURL: URL?
 
@@ -20,7 +20,7 @@ public class Trakt {
 
 	public var hasValidToken: Bool {
 		guard let tokenDate = lastTokenDate else { return false }
-		return tokenDate.compare(dateProvier.now) == .orderedDescending
+		return tokenDate.compare(dateProvider.now) == .orderedDescending
 	}
 
 	public lazy var movies: MoyaProvider<Movies> = createProvider(forTarget: Movies.self)
@@ -44,7 +44,7 @@ public class Trakt {
 		self.userDefaults = builder.userDefaults
 		self.plugins = builder.plugins ?? [PluginType]()
 		self.callbackQueue = builder.callbackQueue
-		self.dateProvier = builder.dateProvier
+		self.dateProvider = builder.dateProvider
 		self.interceptors = builder.interceptors ?? [RequestInterceptor]()
 
 		if let redirectURL = credentials.redirectURL {
@@ -123,7 +123,7 @@ public class Trakt {
 	}
 
 	private func saveToken(_ token: Token) {
-		lastTokenDate = dateProvier.now.addingTimeInterval(token.expiresIn)
+		lastTokenDate = dateProvider.now.addingTimeInterval(token.expiresIn)
 		let tokenData = NSKeyedArchiver.archivedData(withRootObject: token)
 		userDefaults.set(tokenData, forKey: Trakt.accessTokenKey)
 		userDefaults.set(lastTokenDate, forKey: Trakt.accessTokenDateKey)

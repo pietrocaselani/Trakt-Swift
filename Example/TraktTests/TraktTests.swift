@@ -33,7 +33,7 @@ final class TraktTests: XCTestCase {
 		let builder = TraktBuilder {
 			$0.clientId = clientId
 			$0.userDefaults = userDefaultsMock
-			$0.dateProvier = TestableDateProvider(now: beginOfTime)
+			$0.dateProvider = TestableDateProvider(now: beginOfTime)
 		}
 
 		trakt = Trakt(builder: builder)
@@ -45,7 +45,7 @@ final class TraktTests: XCTestCase {
 			$0.clientSecret = clientSecret
 			$0.redirectURL = redirectURL
 			$0.userDefaults = userDefaultsMock
-			$0.dateProvier = TestableDateProvider(now: beginOfTime)
+			$0.dateProvider = TestableDateProvider(now: beginOfTime)
 		}
 
 		trakt = Trakt(builder: builder)
@@ -212,7 +212,7 @@ final class TraktTests: XCTestCase {
 			$0.clientSecret = clientSecret
 			$0.redirectURL = redirectURL
 			$0.userDefaults = userDefaultsMock
-			$0.dateProvier = TestableDateProvider(now: beginOfTime)
+			$0.dateProvider = TestableDateProvider(now: beginOfTime)
 		}
 
 		let trakt = TestableTrakt(builder: builder)

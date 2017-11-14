@@ -7,14 +7,14 @@ public final class TraktBuilder {
 	public var plugins: [PluginType]?
 	public var userDefaults: UserDefaults
 	public var callbackQueue: DispatchQueue?
-	public var dateProvier: DateProvider
+	public var dateProvider: DateProvider
 	public var interceptors: [RequestInterceptor]?
 
 	public typealias BuilderClosure = (TraktBuilder) -> Void
 
 	public init(buildClosure: BuilderClosure) {
 		userDefaults = UserDefaults.standard
-		dateProvier = DefaultDateProvider()
+		dateProvider = DefaultDateProvider()
 		buildClosure(self)
 	}
 }

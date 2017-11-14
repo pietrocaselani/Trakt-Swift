@@ -26,7 +26,7 @@ final class TraktTokenInterceptorTests: XCTestCase {
 			$0.clientSecret = "clientSecret"
 			$0.redirectURL = "redirectURL"
 			$0.userDefaults = userDefaultsMock
-			$0.dateProvier = TestableDateProvider(now: beginOfTime.addingTimeInterval(60 * 60 * 24))
+			$0.dateProvider = TestableDateProvider(now: beginOfTime.addingTimeInterval(60 * 60 * 24))
 		}
 
 		let token = Token(accessToken: "accesstokenMock", expiresIn: beginOfTime.timeIntervalSince1970,
