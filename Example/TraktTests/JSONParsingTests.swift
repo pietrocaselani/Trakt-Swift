@@ -23,11 +23,6 @@ final class JSONParsingTests: XCTestCase {
 	}
 	
 	private func setupTraktForAuthentication(_ token: Token? = nil) {
-		if let validToken = token {
-			let data = NSKeyedArchiver.archivedData(withRootObject: validToken)
-			userDefaultsMock.set(data, forKey: Trakt.accessTokenKey)
-		}
-
 		let builder = TraktBuilder {
 			$0.clientId = clientId
 			$0.clientSecret = clientSecret
@@ -36,12 +31,13 @@ final class JSONParsingTests: XCTestCase {
 		}
 
 		trakt = TestableTrakt(builder: builder)
+		trakt.accessToken = token
 	}
 	
 	func testParseSyncWatchedShows() {
 		//Given
 		let observer = scheduler.createObserver([BaseShow].self)
-		let token = Token(accessToken: "accesstokenMock", expiresIn: Date().addingTimeInterval(3000),
+		let token = Token(accessToken: "accesstokenMock", expiresIn: Date().timeIntervalSince1970 + 3000,
 		                  refreshToken: "refreshtokenMock", tokenType: "type1", scope: "all")
 		setupTraktForAuthentication(token)
 
@@ -49,7 +45,14 @@ final class JSONParsingTests: XCTestCase {
 		_ = trakt.sync.rx.request(.watched(type: .shows, extended: .full)).map([BaseShow].self).asObservable().subscribe(observer)
 
 		XCTAssertEqual(observer.events.count, 2)
-		let next = observer.events.first!
-		XCTAssertEqual(next.value.element!.count, 105)
+		let event = observer.events.first!
+		XCTAssertFalse(event.value.isStopEvent)
+
+		guard let element = event.value.element else {
+			XCTFail("Event should have an element associated")
+			return
+		}
+
+		XCTAssertEqual(element.count, 105)
 	}
 }

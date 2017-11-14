@@ -2,14 +2,18 @@ import Moya
 import RxSwift
 
 public class Trakt {
-	private let clientId: String
-	private let clientSecret: String?
-	private let redirectURL: String?
+	let clientId: String
+	let clientSecret: String?
+	let redirectURL: String?
+	private var lastTokenDate: Date?
 	private var plugins: [PluginType]
 	private let userDefaults: UserDefaults
 	private let callbackQueue: DispatchQueue?
+	private let dateProvier: DateProvider
+	private var interceptors = [RequestInterceptor]()
 	public let oauthURL: URL?
-	public private(set) var accessToken: Token? {
+
+	public internal(set) var accessToken: Token? {
 		didSet {
 			guard let token = accessToken else { return }
 			saveToken(token)
@@ -17,7 +21,8 @@ public class Trakt {
 	}
 
 	public var hasValidToken: Bool {
-		return accessToken?.expiresIn.compare(Date()) == .orderedDescending
+		guard let tokenDate = lastTokenDate else { return false }
+		return tokenDate.compare(dateProvier.now) == .orderedDescending
 	}
 
 	public lazy var movies: MoyaProvider<Movies> = createProvider(forTarget: Movies.self)
@@ -34,16 +39,14 @@ public class Trakt {
 			fatalError("Trakt needs a clientId")
 		}
 
-		guard let userDefaults = builder.userDefaults else {
-			fatalError("Trakt needs an userDefaults")
-		}
-
 		self.clientId = clientId
 		self.clientSecret = builder.clientSecret
 		self.redirectURL = builder.redirectURL
-		self.userDefaults = userDefaults
+		self.userDefaults = builder.userDefaults
 		self.plugins = builder.plugins ?? [PluginType]()
 		self.callbackQueue = builder.callbackQueue
+		self.dateProvier = builder.dateProvier
+		self.interceptors = builder.interceptors ?? [RequestInterceptor]()
 
 		if let redirectURL = redirectURL {
 			let url = Trakt.siteURL.appendingPathComponent(Trakt.OAuth2AuthorizationPath)
@@ -61,14 +64,12 @@ public class Trakt {
 
 		loadToken()
 
-		let accessTokenPlugin = AccessTokenPlugin(tokenClosure: { [unowned self] () -> String in
-			return self.accessToken?.accessToken ?? ""
-		}())
+		interceptors.append(TraktTokenInterceptor(trakt: self))
 
-		plugins.append(accessTokenPlugin)
+		plugins.append(AccessTokenPlugin(tokenClosure: self.accessToken?.accessToken ?? ""))
 	}
 
-	public func finishesAuthentication(with request: URLRequest) -> Single<AuthenticationResult> {
+	public final func finishesAuthentication(with request: URLRequest) -> Single<AuthenticationResult> {
 		guard let secret = clientSecret, let redirectURL = redirectURL else {
 			let error = TraktError.cantAuthenticate(message: "Trying to authenticate without a secret or redirect URL")
 			return Single.error(error)
@@ -98,34 +99,56 @@ public class Trakt {
 				}
 	}
 
+	func createProvider<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T> {
+		let endpointClosure = createEndpointClosure(forTarget: target)
+		let requestClosure = createRequestClosure(forTarget: target)
+
+		return MoyaProvider<T>(endpointClosure: endpointClosure,
+		                       requestClosure: requestClosure,
+		                       callbackQueue: self.callbackQueue,
+		                       plugins: self.plugins)
+	}
+
 	private func loadToken() {
-		let tokenData = userDefaults.object(forKey: Trakt.accessTokenKey) as? Data
-		if let tokenData = tokenData, let token = NSKeyedUnarchiver.unarchiveObject(with: tokenData) as? Token {
-			self.accessToken = token
-		}
+		guard let tokenData = userDefaults.object(forKey: Trakt.accessTokenKey) as? Data else { return }
+
+		guard let tokenDate = userDefaults.object(forKey: Trakt.accessTokenDateKey) as? Date else { return }
+
+		guard let token = NSKeyedUnarchiver.unarchiveObject(with: tokenData) as? Token else { return }
+
+		self.accessToken = token
+		self.lastTokenDate = tokenDate
 	}
 
 	private func saveToken(_ token: Token) {
+		lastTokenDate = dateProvier.now.addingTimeInterval(token.expiresIn)
 		let tokenData = NSKeyedArchiver.archivedData(withRootObject: token)
 		userDefaults.set(tokenData, forKey: Trakt.accessTokenKey)
+		userDefaults.set(lastTokenDate, forKey: Trakt.accessTokenDateKey)
+		userDefaults.synchronize()
 	}
 
-	func createProvider<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T> {
-		let endpointClosure = createEndpointClosure(forTarget: target)
-
-		return MoyaProvider<T>(endpointClosure: endpointClosure, callbackQueue: self.callbackQueue, plugins: plugins)
-	}
-
-	private func createEndpointClosure<T: TargetType>(forTarget: T.Type) -> MoyaProvider<T>.EndpointClosure {
+	private func createEndpointClosure<T: TraktType>(forTarget: T.Type) -> MoyaProvider<T>.EndpointClosure {
 		let endpointClosure = { (target: T) -> Endpoint<T> in
-			var endpoint = MoyaProvider.defaultEndpointMapping(for: target)
-			endpoint = endpoint.adding(newHTTPHeaderFields: [Trakt.headerContentType: Trakt.contentTypeJSON])
-			endpoint = endpoint.adding(newHTTPHeaderFields: [Trakt.headerTraktAPIKey: self.clientId])
-			endpoint = endpoint.adding(newHTTPHeaderFields: [Trakt.headerTraktAPIVersion: Trakt.apiVersion])
+			let endpoint = MoyaProvider.defaultEndpointMapping(for: target)
 
-			return endpoint
+			let traktHeaders = [Trakt.headerContentType: Trakt.contentTypeJSON,
+			                    Trakt.headerTraktAPIVersion: Trakt.apiVersion,
+			                    Trakt.headerTraktAPIKey: self.clientId]
+
+			return endpoint.adding(newHTTPHeaderFields: traktHeaders)
 		}
 
 		return endpointClosure
+	}
+
+	private func createRequestClosure<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T>.RequestClosure {
+		if target is Authentication.Type { return MoyaProvider.defaultRequestMapping }
+
+		let requestClosure = { [unowned self] (endpoint: Endpoint<T>, done: @escaping MoyaProvider.RequestResultClosure) in
+			self.interceptors.forEach { $0.intercept(endpoint: endpoint, done: done) }
+		}
+
+		return requestClosure
 	}
 }

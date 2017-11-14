@@ -17,4 +17,5 @@ extension Trakt {
   static let apiHost = "api.trakt.tv"
 
   static let accessTokenKey = "trakt_token"
+	static let accessTokenDateKey = "trakt_token_date"
 }
