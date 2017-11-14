@@ -2,9 +2,7 @@ import Moya
 import RxSwift
 
 public class Trakt {
-	let clientId: String
-	let clientSecret: String?
-	let redirectURL: String?
+	let credentials: Credentials
 	private var lastTokenDate: Date?
 	private var plugins: [PluginType]
 	private let userDefaults: UserDefaults
@@ -39,16 +37,17 @@ public class Trakt {
 			fatalError("Trakt needs a clientId")
 		}
 
-		self.clientId = clientId
-		self.clientSecret = builder.clientSecret
-		self.redirectURL = builder.redirectURL
+		self.credentials = Credentials(clientId: clientId,
+		                               clientSecret: builder.clientSecret,
+		                               redirectURL: builder.redirectURL)
+
 		self.userDefaults = builder.userDefaults
 		self.plugins = builder.plugins ?? [PluginType]()
 		self.callbackQueue = builder.callbackQueue
 		self.dateProvier = builder.dateProvier
 		self.interceptors = builder.interceptors ?? [RequestInterceptor]()
 
-		if let redirectURL = redirectURL {
+		if let redirectURL = credentials.redirectURL {
 			let url = Trakt.siteURL.appendingPathComponent(Trakt.OAuth2AuthorizationPath)
 			var componenets = URLComponents(url: url, resolvingAgainstBaseURL: false)
 
@@ -70,7 +69,7 @@ public class Trakt {
 	}
 
 	public final func finishesAuthentication(with request: URLRequest) -> Single<AuthenticationResult> {
-		guard let secret = clientSecret, let redirectURL = redirectURL else {
+		guard let secret = credentials.clientSecret, let redirectURL = credentials.redirectURL else {
 			let error = TraktError.cantAuthenticate(message: "Trying to authenticate without a secret or redirect URL")
 			return Single.error(error)
 		}
@@ -84,8 +83,11 @@ public class Trakt {
 			return Single.just(AuthenticationResult.undetermined)
 		}
 
-		let target = Authentication.accessToken(code: codeItemValue, clientId: clientId, clientSecret: secret,
-				redirectURL: redirectURL, grantType: "authorization_code")
+		let target = Authentication.accessToken(code: codeItemValue,
+		                                        clientId: credentials.clientId,
+		                                        clientSecret: secret,
+		                                        redirectURL: redirectURL,
+		                                        grantType: "authorization_code")
 
 		return self.authentication.rx.request(target)
 				.filterSuccessfulStatusCodes()
@@ -134,7 +136,7 @@ public class Trakt {
 
 			let traktHeaders = [Trakt.headerContentType: Trakt.contentTypeJSON,
 			                    Trakt.headerTraktAPIVersion: Trakt.apiVersion,
-			                    Trakt.headerTraktAPIKey: self.clientId]
+			                    Trakt.headerTraktAPIKey: self.credentials.clientId]
 
 			return endpoint.adding(newHTTPHeaderFields: traktHeaders)
 		}

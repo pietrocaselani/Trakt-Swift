@@ -35,7 +35,7 @@ public final class Token: NSObject, Codable, NSCoding {
 
   public required convenience init?(coder: NSCoder) {
 		let expiresIn = coder.decodeDouble(forKey: "expiresIn")
-		
+
 		guard let accessToken = coder.decodeObject(forKey: "accessToken") as? String,
       let refreshToken = coder.decodeObject(forKey: "refreshToken") as? String,
       let tokenType = coder.decodeObject(forKey: "tokenType") as? String,

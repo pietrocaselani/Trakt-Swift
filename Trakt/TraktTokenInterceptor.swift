@@ -8,7 +8,7 @@ final class TraktTokenInterceptor: RequestInterceptor {
 		self.trakt = trakt
 	}
 
-	func intercept<T>(endpoint: Endpoint<T>, done: @escaping MoyaProvider<T>.RequestResultClosure) where T : TraktType {
+	func intercept<T>(endpoint: Endpoint<T>, done: @escaping MoyaProvider<T>.RequestResultClosure) where T: TraktType {
 		guard let trakt = self.trakt else {
 			done(.failure(MoyaError.requestMapping(endpoint.url)))
 			return
@@ -29,28 +29,26 @@ final class TraktTokenInterceptor: RequestInterceptor {
 			return
 		}
 
-		guard let clientSecret = trakt.clientSecret else {
-			done(.failure(MoyaError.requestMapping(endpoint.url)))
-			return
-		}
-
-		guard let redirectURL = trakt.redirectURL else {
-			done(.failure(MoyaError.requestMapping(endpoint.url)))
-			return
-		}
-
-		refreshToken(trakt, currentToken, clientSecret, redirectURL, request, Authentication.self, done)
+		refreshToken(trakt, currentToken, request, Authentication.self, done)
 	}
 
 	private func refreshToken<T: TraktType>(_ trakt: Trakt,
 	                                        _ token: Token,
-	                                        _ clientSecret: String,
-	                                        _ redirectURL: String,
 	                                        _ request: URLRequest,
 	                                        _ type: T.Type,
 	                                        _ done: @escaping MoyaProvider<T>.RequestResultClosure) {
+		guard let clientSecret = trakt.credentials.clientSecret else {
+			done(.failure(MoyaError.requestMapping("Invalid client secret")))
+			return
+		}
+
+		guard let redirectURL = trakt.credentials.redirectURL else {
+			done(.failure(MoyaError.requestMapping("Invalid redirect url")))
+			return
+		}
+
 		let target = Authentication.refreshToken(refreshToken: token.refreshToken,
-		                                         clientId: trakt.clientId,
+		                                         clientId: trakt.credentials.clientId,
 		                                         clientSecret: clientSecret,
 		                                         redirectURL: redirectURL,
 		                                         grantType: "refresh_token")
