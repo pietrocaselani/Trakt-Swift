@@ -14,6 +14,7 @@ final class TraktTests: XCTestCase {
 	private let redirectURLWrongCode = "couchtracker://my_awesome_url?code=my_wrong_code"
 	private let scheduler = TestScheduler(initialClock: 0)
 	private var trakt: Trakt!
+	private let beginOfTime = Date(timeIntervalSince1970: 0)
 
 	override func setUp() {
 		let link = "https://trakt.tv/oauth/authorize?response_type=code&client_id=\(clientId)&redirect_uri=\(redirectURL)"
@@ -32,25 +33,23 @@ final class TraktTests: XCTestCase {
 		let builder = TraktBuilder {
 			$0.clientId = clientId
 			$0.userDefaults = userDefaultsMock
+			$0.dateProvider = TestableDateProvider(now: beginOfTime)
 		}
 
 		trakt = Trakt(builder: builder)
 	}
 
 	private func setupTraktForAuthentication(_ token: Token? = nil) {
-		if let validToken = token {
-			let data = NSKeyedArchiver.archivedData(withRootObject: validToken)
-			userDefaultsMock.set(data, forKey: Trakt.accessTokenKey)
-		}
-
 		let builder = TraktBuilder {
 			$0.clientId = clientId
 			$0.clientSecret = clientSecret
 			$0.redirectURL = redirectURL
 			$0.userDefaults = userDefaultsMock
+			$0.dateProvider = TestableDateProvider(now: beginOfTime)
 		}
 
 		trakt = Trakt(builder: builder)
+		trakt.accessToken = token
 	}
 
 	func testTrakt_cantCreateInstanceWithoutClientId() {
@@ -59,17 +58,6 @@ final class TraktTests: XCTestCase {
 		}
 
 		expectFatalError(expectedMessage: "Trakt needs a clientId") {
-			_ = Trakt(builder: builder)
-		}
-	}
-
-	func testTrakt_cantCreateInstanceWithoutUserDefaults() {
-		let builder = TraktBuilder {
-			$0.clientId = clientId
-			$0.userDefaults = nil
-		}
-
-		expectFatalError(expectedMessage: "Trakt needs an userDefaults") {
 			_ = Trakt(builder: builder)
 		}
 	}
@@ -100,7 +88,7 @@ final class TraktTests: XCTestCase {
 
 	func testTrakt_validateTokenExpirationDate() {
 		//Given
-		let token = Token(accessToken: "accesstokenMock", expiresIn: Date().addingTimeInterval(3000),
+		let token = Token(accessToken: "accesstokenMock", expiresIn: beginOfTime.timeIntervalSince1970 + 60 * 60 * 24,
 		                  refreshToken: "refreshtokenMock", tokenType: "type1", scope: "all")
 		setupTraktForAuthentication(token)
 
@@ -112,7 +100,7 @@ final class TraktTests: XCTestCase {
 
 	func testTrakt_invalidateTokenExpirationDate() {
 		//Given
-		let token = Token(accessToken: "accesstokenMock", expiresIn: Date(),
+		let token = Token(accessToken: "accesstokenMock", expiresIn: beginOfTime.timeIntervalSince1970,
 		                  refreshToken: "refreshtokenMock", tokenType: "type1", scope: "all")
 		setupTraktForAuthentication(token)
 
@@ -124,7 +112,7 @@ final class TraktTests: XCTestCase {
 
 	func testTrakt_withAccessToken_addsAuthorizationHeader() {
 		//Given
-		let token = Token(accessToken: "accesstokenMock", expiresIn: Date().addingTimeInterval(3000),
+		let token = Token(accessToken: "accesstokenMock", expiresIn: Date().timeIntervalSince1970 + 3000,
 		                  refreshToken: "refreshtokenMock", tokenType: "type1", scope: "all")
 		setupTraktForAuthentication(token)
 
@@ -224,6 +212,7 @@ final class TraktTests: XCTestCase {
 			$0.clientSecret = clientSecret
 			$0.redirectURL = redirectURL
 			$0.userDefaults = userDefaultsMock
+			$0.dateProvider = TestableDateProvider(now: beginOfTime)
 		}
 
 		let trakt = TestableTrakt(builder: builder)
@@ -234,13 +223,20 @@ final class TraktTests: XCTestCase {
 		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe()
 
 		//Then
-		let tokenData = userDefaultsMock.object(forKey: Trakt.accessTokenKey) as? Data
-		if let tokenData = tokenData, let token = NSKeyedUnarchiver.unarchiveObject(with: tokenData) as? Token {
-			XCTAssertEqual(token.accessToken, "dbaf9757982a9e738f05d249b7b5b4a266b3a139049317c4909f2f263572c781")
-			XCTAssertEqual(token.refreshToken, "76ba4c5c75c96f6087f58a4de10be6c00b29ea1ddc3b2022ee2016d1363e3a7c")
-		} else {
-			XCTFail("Invalid token")
-		}
+		XCTAssertEqual(trakt.accessToken?.accessToken, "dbaf9757982a9e738f05d249b7b5b4a266b3a139049317c4909f2f263572c781")
+		XCTAssertEqual(trakt.accessToken?.refreshToken, "76ba4c5c75c96f6087f58a4de10be6c00b29ea1ddc3b2022ee2016d1363e3a7c")
+
+//		let tokenData = userDefaultsMock.object(forKey: Trakt.accessTokenKey) as? Data
+//		if let tokenData = tokenData, let token = NSKeyedUnarchiver.unarchiveObject(with: tokenData) as? Token {
+//			XCTAssertEqual(token.accessToken, "dbaf9757982a9e738f05d249b7b5b4a266b3a139049317c4909f2f263572c781")
+//			XCTAssertEqual(token.refreshToken, "76ba4c5c75c96f6087f58a4de10be6c00b29ea1ddc3b2022ee2016d1363e3a7c")
+//		} else {
+//			XCTFail("Invalid token")
+//		}
+
+		let newTrakt = TestableTrakt(builder: builder)
+		XCTAssertEqual(newTrakt.accessToken?.accessToken, "dbaf9757982a9e738f05d249b7b5b4a266b3a139049317c4909f2f263572c781")
+		XCTAssertEqual(newTrakt.accessToken?.refreshToken, "76ba4c5c75c96f6087f58a4de10be6c00b29ea1ddc3b2022ee2016d1363e3a7c")
 	}
 
 	func testTrakt_forURLWithValidCode_shouldAuthenticate() {

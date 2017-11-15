@@ -2,7 +2,7 @@ import Foundation
 
 public final class Token: NSObject, Codable, NSCoding {
   public let accessToken: String
-  public let expiresIn: Date
+  public let expiresIn: TimeInterval
   public let refreshToken: String
   public let tokenType: String
   public let scope: String
@@ -15,7 +15,7 @@ public final class Token: NSObject, Codable, NSCoding {
 		case scope
 	}
 
-  public init(accessToken: String, expiresIn: Date, refreshToken: String, tokenType: String, scope: String) {
+  public init(accessToken: String, expiresIn: TimeInterval, refreshToken: String, tokenType: String, scope: String) {
     self.accessToken = accessToken
     self.expiresIn = expiresIn
     self.refreshToken = refreshToken
@@ -30,14 +30,13 @@ public final class Token: NSObject, Codable, NSCoding {
 		self.refreshToken = try container.decode(String.self, forKey: .refreshToken)
 		self.tokenType = try container.decode(String.self, forKey: .tokenType)
 		self.scope = try container.decode(String.self, forKey: .scope)
-
-		let expiresIn = try container.decode(TimeInterval.self, forKey: .expiresIn)
-		self.expiresIn = Date(timeIntervalSinceNow: expiresIn)
+		self.expiresIn = try container.decode(TimeInterval.self, forKey: .expiresIn)
 	}
 
   public required convenience init?(coder: NSCoder) {
-    guard let accessToken = coder.decodeObject(forKey: "accessToken") as? String,
-      let expiresIn = coder.decodeObject(forKey: "expiresIn") as? Date,
+		let expiresIn = coder.decodeDouble(forKey: "expiresIn")
+
+		guard let accessToken = coder.decodeObject(forKey: "accessToken") as? String,
       let refreshToken = coder.decodeObject(forKey: "refreshToken") as? String,
       let tokenType = coder.decodeObject(forKey: "tokenType") as? String,
       let scope = coder.decodeObject(forKey: "scope") as? String
@@ -59,7 +58,7 @@ public final class Token: NSObject, Codable, NSCoding {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 
 		try container.encode(accessToken, forKey: .accessToken)
-		try container.encode(expiresIn.timeIntervalSinceNow, forKey: .expiresIn)
+		try container.encode(expiresIn, forKey: .expiresIn)
 		try container.encode(refreshToken, forKey: .refreshToken)
 		try container.encode(tokenType, forKey: .tokenType)
 		try container.encode(scope, forKey: .scope)

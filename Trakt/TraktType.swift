@@ -21,7 +21,7 @@ public extension TraktType {
   public var hashValue: Int {
     let typeName = String(reflecting: self)
 
-    return typeName.hashValue ^ path.hashValue ^ method.hashValue
+    return typeName.hashValue ^ path.hashValue ^ method.hashValue ^ authorizationType.hashValue
   }
 
   public static func == (lhs: Self, rhs: Self) -> Bool {

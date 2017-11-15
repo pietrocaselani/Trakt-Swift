@@ -10,7 +10,7 @@ final class TraktDateTransformerTests: XCTestCase {
 		XCTAssertNil(TraktDateTransformer.dateTransformer.transformFromJSON(nil))
 	}
 
-	func testCanTransformToJONS() {
+	func testCanTransformToJSON() {
 		let date = Date(timeIntervalSince1970: 0)
 
 		let dateTimeString = TraktDateTransformer.dateTimeTransformer.transformToJSON(date)
