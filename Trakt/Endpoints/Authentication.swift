@@ -27,7 +27,7 @@ extension Authentication: TraktType {
 		let codeKey: String
 
 		if case .accessToken = self {
-			codeKey = "access_token"
+			codeKey = "code"
 		} else {
 			codeKey = "refresh_token"
 		}

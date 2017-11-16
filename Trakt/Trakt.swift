@@ -3,6 +3,7 @@ import RxSwift
 
 public class Trakt {
 	let credentials: Credentials
+	var oauthCode: String?
 	private var lastTokenDate: Date?
 	private var plugins: [PluginType]
 	private let userDefaults: UserDefaults
@@ -69,7 +70,7 @@ public class Trakt {
 	}
 
 	public final func finishesAuthentication(with request: URLRequest) -> Single<AuthenticationResult> {
-		guard let secret = credentials.clientSecret, let redirectURL = credentials.redirectURL else {
+		guard let _ = credentials.clientSecret, let redirectURL = credentials.redirectURL else {
 			let error = TraktError.cantAuthenticate(message: "Trying to authenticate without a secret or redirect URL")
 			return Single.error(error)
 		}
@@ -83,22 +84,9 @@ public class Trakt {
 			return Single.just(AuthenticationResult.undetermined)
 		}
 
-		let target = Authentication.accessToken(code: codeItemValue,
-		                                        clientId: credentials.clientId,
-		                                        clientSecret: secret,
-		                                        redirectURL: redirectURL,
-		                                        grantType: "authorization_code")
+		self.oauthCode = codeItemValue
 
-		return self.authentication.rx.request(target)
-				.filterSuccessfulStatusCodes()
-				.flatMap { [unowned self] response -> Single<AuthenticationResult> in
-					do {
-						self.accessToken = try response.map(Token.self)
-						return Single.just(AuthenticationResult.authenticated)
-					} catch {
-						return Single.error(error)
-					}
-				}
+		return Single.just(AuthenticationResult.authenticated)
 	}
 
 	func createProvider<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T> {
@@ -145,8 +133,6 @@ public class Trakt {
 	}
 
 	private func createRequestClosure<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T>.RequestClosure {
-		if target is Authentication.Type { return MoyaProvider.defaultRequestMapping }
-
 		let requestClosure = { [unowned self] (endpoint: Endpoint<T>, done: @escaping MoyaProvider.RequestResultClosure) in
 			self.interceptors.forEach { $0.intercept(endpoint: endpoint, done: done) }
 		}

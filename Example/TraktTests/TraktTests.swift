@@ -205,7 +205,22 @@ final class TraktTests: XCTestCase {
 		XCTAssertEqual(observer.events, expectedEvents)
 	}
 
-	func testTrakt_forURLWithValidCode_shouldSaveToken() {
+	func testTrakt_forURLWithValidCode_emitsAuthenticationAuthenticated() {
+		//Given
+		setupTraktForAuthentication()
+		let request = URLRequest(url: URL(string: redirectURLValid)!)
+		let observer = scheduler.createObserver(AuthenticationResult.self)
+
+		//When
+		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe(observer)
+
+		//Then
+		let expectedEvents = [next(0, AuthenticationResult.authenticated), completed(0)]
+
+		XCTAssertEqual(observer.events, expectedEvents)
+	}
+
+	func testTrakt_forURLWithValidCode_shouldSaveOAuthCode() {
 		//Given
 		let builder = TraktBuilder {
 			$0.clientId = clientId
@@ -223,20 +238,7 @@ final class TraktTests: XCTestCase {
 		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe()
 
 		//Then
-		XCTAssertEqual(trakt.accessToken?.accessToken, "dbaf9757982a9e738f05d249b7b5b4a266b3a139049317c4909f2f263572c781")
-		XCTAssertEqual(trakt.accessToken?.refreshToken, "76ba4c5c75c96f6087f58a4de10be6c00b29ea1ddc3b2022ee2016d1363e3a7c")
-
-//		let tokenData = userDefaultsMock.object(forKey: Trakt.accessTokenKey) as? Data
-//		if let tokenData = tokenData, let token = NSKeyedUnarchiver.unarchiveObject(with: tokenData) as? Token {
-//			XCTAssertEqual(token.accessToken, "dbaf9757982a9e738f05d249b7b5b4a266b3a139049317c4909f2f263572c781")
-//			XCTAssertEqual(token.refreshToken, "76ba4c5c75c96f6087f58a4de10be6c00b29ea1ddc3b2022ee2016d1363e3a7c")
-//		} else {
-//			XCTFail("Invalid token")
-//		}
-
-		let newTrakt = TestableTrakt(builder: builder)
-		XCTAssertEqual(newTrakt.accessToken?.accessToken, "dbaf9757982a9e738f05d249b7b5b4a266b3a139049317c4909f2f263572c781")
-		XCTAssertEqual(newTrakt.accessToken?.refreshToken, "76ba4c5c75c96f6087f58a4de10be6c00b29ea1ddc3b2022ee2016d1363e3a7c")
+		XCTAssertEqual(trakt.oauthCode, "my_awesome_code")
 	}
 
 	func testTrakt_forURLWithValidCode_shouldAuthenticate() {
@@ -261,24 +263,27 @@ final class TraktTests: XCTestCase {
 		XCTAssertEqual(observer.events, expectedEvents)
 	}
 
-	func testTrakt_invalidResponse_shouldEmitError() {
-		//Given
+	func testTrakt_withTokenSaved_shouldLoadSameToken() {
+		let beginOfTime = Date(timeIntervalSince1970: 0)
+
 		let builder = TraktBuilder {
-			$0.clientId = clientId
-			$0.clientSecret = clientSecret
-			$0.redirectURL = redirectURL
+			$0.clientId = "clientId"
+			$0.clientSecret = "clientSecret"
+			$0.redirectURL = "redirectURL"
 			$0.userDefaults = userDefaultsMock
+			$0.dateProvider = TestableDateProvider(now: beginOfTime)
 		}
 
-		let trakt = TestableTrakt(builder: builder)
+		let expiresIn = beginOfTime.addingTimeInterval(60 * 60 * 24).timeIntervalSince1970
 
-		let request = URLRequest(url: URL(string: redirectURLWrongCode)!)
-		let observer = scheduler.createObserver(AuthenticationResult.self)
+		let token = Token(accessToken: "accesstokenMock", expiresIn: expiresIn,
+		                  refreshToken: "refreshtokenMock", tokenType: "type1", scope: "all")
 
-		//When
-		_ = trakt.finishesAuthentication(with: request).asObservable().subscribe(observer)
+		let trakt = Trakt(builder: builder)
+		trakt.accessToken = token
 
-		//Then
-		XCTAssertEqual(observer.events.count, 1)
+		let newTrakt = Trakt(builder: builder)
+
+		XCTAssertEqual(token, newTrakt.accessToken)
 	}
 }
