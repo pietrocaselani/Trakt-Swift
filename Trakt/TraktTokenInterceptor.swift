@@ -19,31 +19,67 @@ final class TraktTokenInterceptor: RequestInterceptor {
 			return
 		}
 
+		if request.url?.path.contains("oauth/token") ?? false {
+			done(.success(request))
+			return
+		}
+
 		if trakt.hasValidToken {
 			done(.success(request))
 			return
 		}
 
-		guard let currentToken = trakt.accessToken else {
-			done(.failure(MoyaError.requestMapping(endpoint.url)))
-			return
+		let tokenCompletion = { (result: Result<Token, MoyaError>) -> Void in
+			switch result {
+			case .success(let newToken):
+				trakt.accessToken = newToken
+				done(.success(request))
+			case .failure(let error):
+				done(.failure(error))
+			}
 		}
 
-		refreshToken(trakt, currentToken, request, Authentication.self, done)
+		if let currentToken = trakt.accessToken {
+			refreshToken(trakt: trakt, token: currentToken, completion: tokenCompletion)
+		} else {
+
+			guard let oauthToken = trakt.oauthCode else {
+				done(.success(request))
+				return
+			}
+
+			fetchToken(trakt: trakt, oauthCode: oauthToken, completion: tokenCompletion)
+		}
 	}
 
-	private func refreshToken<T: TraktType>(_ trakt: Trakt,
-	                                        _ token: Token,
-	                                        _ request: URLRequest,
-	                                        _ type: T.Type,
-	                                        _ done: @escaping MoyaProvider<T>.RequestResultClosure) {
+	private func fetchToken(trakt: Trakt, oauthCode: String, completion: @escaping (Result<Token, MoyaError>) -> Void) {
 		guard let clientSecret = trakt.credentials.clientSecret else {
-			done(.failure(MoyaError.requestMapping("Invalid client secret")))
+			completion(.failure(MoyaError.requestMapping("Invalid client secret")))
 			return
 		}
 
 		guard let redirectURL = trakt.credentials.redirectURL else {
-			done(.failure(MoyaError.requestMapping("Invalid redirect url")))
+			completion(.failure(MoyaError.requestMapping("Invalid redirect url")))
+			return
+		}
+
+		let target = Authentication.accessToken(code: oauthCode,
+		                           clientId: trakt.credentials.clientId,
+		                           clientSecret: clientSecret,
+		                           redirectURL: redirectURL,
+		                           grantType: "authorization_code")
+
+		requestToken(trakt: trakt, target: target, completion: completion)
+	}
+
+	private func refreshToken(trakt: Trakt, token: Token, completion: @escaping (Result<Token, MoyaError>) -> Void) {
+		guard let clientSecret = trakt.credentials.clientSecret else {
+			completion(.failure(MoyaError.requestMapping("Invalid client secret")))
+			return
+		}
+
+		guard let redirectURL = trakt.credentials.redirectURL else {
+			completion(.failure(MoyaError.requestMapping("Invalid redirect url")))
 			return
 		}
 
@@ -53,18 +89,22 @@ final class TraktTokenInterceptor: RequestInterceptor {
 		                                         redirectURL: redirectURL,
 		                                         grantType: "refresh_token")
 
+		requestToken(trakt: trakt, target: target, completion: completion)
+	}
+
+	private func requestToken(trakt: Trakt, target: Authentication, completion: @escaping (Result<Token, MoyaError>) -> Void) {
 		trakt.authentication.request(target) { result in
 			switch result {
 			case .success(let response):
 				do {
 					let token = try response.filterSuccessfulStatusAndRedirectCodes().map(Token.self)
-					trakt.accessToken = token
-					done(.success(request))
+					completion(.success(token))
 				} catch {
-					done(.failure(MoyaError.objectMapping(error, response)))
+					guard let moyaError = error as? MoyaError else { return }
+					completion(.failure(moyaError))
 				}
 			case .failure(let error):
-				done(.failure(error))
+				completion(.failure(error))
 			}
 		}
 
