@@ -1,5 +1,5 @@
 public final class Movie: StandardMediaEntity {
-  public let year: Int
+  public let year: Int?
   public let ids: MovieIds
   public let certification: String?
   public let tagline: String?
@@ -17,7 +17,7 @@ public final class Movie: StandardMediaEntity {
 	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.year = try container.decode(Int.self, forKey: .year)
+		self.year = try container.decodeIfPresent(Int.self, forKey: .year)
 		self.ids = try container.decode(MovieIds.self, forKey: .ids)
 		self.certification = try container.decodeIfPresent(String.self, forKey: .certification)
 		self.tagline = try container.decodeIfPresent(String.self, forKey: .tagline)
@@ -34,7 +34,11 @@ public final class Movie: StandardMediaEntity {
 	}
 
   public override var hashValue: Int {
-    var hash = super.hashValue ^ year.hashValue ^ ids.hashValue
+    var hash = super.hashValue ^ ids.hashValue
+
+	if let yearHash = year?.hashValue {
+		hash = hash ^ yearHash
+	}
 
     if let certificationHash = certification?.hashValue {
       hash = hash ^ certificationHash
