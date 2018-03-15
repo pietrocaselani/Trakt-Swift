@@ -43,9 +43,12 @@ extension Sync: TraktType {
   public var sampleData: Data {
     switch self {
     case .watched(let type, _):
-      return type == .shows ? stubbedResponse("trakt_sync_watched_shows") : Data()
-    default:
-      return Data()
+      let fileName = type == .shows ? "trakt_sync_watched_shows" : "trakt_sync_watched_movies"
+      return stubbedResponse(fileName)
+	case .addToHistory(_):
+      return stubbedResponse("trakt_sync_addtohistory")
+	case .removeFromHistory(_):
+      return stubbedResponse("trakt_sync_removefromhistory")
     }
   }
 }
