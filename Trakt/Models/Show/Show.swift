@@ -1,7 +1,7 @@
 import Foundation
 
 public final class Show: StandardMediaEntity {
-  public let year: Int
+  public let year: Int?
   public let ids: ShowIds
   public let firstAired: Date?
   public let airs: Airs?
@@ -23,7 +23,7 @@ public final class Show: StandardMediaEntity {
 	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.year = try container.decode(Int.self, forKey: .year)
+		self.year = try container.decodeIfPresent(Int.self, forKey: .year)
 		self.ids = try container.decode(ShowIds.self, forKey: .ids)
 		self.airs = try container.decodeIfPresent(Airs.self, forKey: .airs)
 		self.runtime = try container.decodeIfPresent(Int.self, forKey: .runtime)
@@ -43,7 +43,11 @@ public final class Show: StandardMediaEntity {
 	}
 
   public override var hashValue: Int {
-    var hash = super.hashValue ^ year.hashValue ^ ids.hashValue
+    var hash = super.hashValue ^ ids.hashValue
+
+	if let yearHash = year?.hashValue {
+		hash = hash ^ yearHash
+	}
 
     if let firstAiredHash = firstAired?.hashValue {
       hash = hash ^ firstAiredHash
