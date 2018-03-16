@@ -4,4 +4,5 @@ public enum Status: String, Codable {
   case canceled = "canceled"
   case inProduction = "in production"
   case inDevelopment = "planned"
+  case pilot = "pilot"
 }
