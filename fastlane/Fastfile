@@ -22,7 +22,6 @@ lane :lint do
 			verbose: true,
 			proj: "Example/Trakt.xcodeproj",
 			workspace: "Example/Trakt.xcworkspace")
-    sh("cd .. && lizard ./Example -l swift --xml > ./reports/lizard-report.xml")
     swiftlint(output_file: "./reports/swiftlint.txt", ignore_exit_status: true)
 end
 
