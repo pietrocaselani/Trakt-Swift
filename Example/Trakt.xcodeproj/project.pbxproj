@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F095D3C20D5E50A00A0213F /* trakt_sync_history.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F095D3A20D5E50700A0213F /* trakt_sync_history.json */; };
 		4F3EA3FD203FDA3F008AE053 /* trakt_sync_addtohistory.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3EA3FC203FDA3F008AE053 /* trakt_sync_addtohistory.json */; };
 		4F3EA3FF203FDA7C008AE053 /* trakt_sync_removefromhistory.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3EA3FE203FDA7C008AE053 /* trakt_sync_removefromhistory.json */; };
 		4F3EA401203FDB1B008AE053 /* trakt_sync_watched_movies.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3EA400203FDB1B008AE053 /* trakt_sync_watched_movies.json */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		12E47DF8A5E9D8C08F80AA4C /* Pods-TraktTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraktTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D2C33C259154CF28E674C53 /* Pods-Trakt_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trakt_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trakt_Example/Pods-Trakt_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		4F095D3A20D5E50700A0213F /* trakt_sync_history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_sync_history.json; sourceTree = "<group>"; };
 		4F3EA3FC203FDA3F008AE053 /* trakt_sync_addtohistory.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_sync_addtohistory.json; sourceTree = "<group>"; };
 		4F3EA3FE203FDA7C008AE053 /* trakt_sync_removefromhistory.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_sync_removefromhistory.json; sourceTree = "<group>"; };
 		4F3EA400203FDB1B008AE053 /* trakt_sync_watched_movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trakt_sync_watched_movies.json; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				4F3EA400203FDB1B008AE053 /* trakt_sync_watched_movies.json */,
 				647DF4D21FB3825F0002039D /* trakt_sync_watched_shows.json */,
 				64B801211FA3990B004A6EEE /* trakt_users_settings.json */,
+				4F095D3A20D5E50700A0213F /* trakt_sync_history.json */,
 			);
 			path = JSONs;
 			sourceTree = "<group>";
@@ -210,7 +213,6 @@
 				64B8010B1FA398D7004A6EEE /* Frameworks */,
 				64B8010C1FA398D7004A6EEE /* Resources */,
 				6666CE758929F40F08CF9E13 /* [CP] Embed Pods Frameworks */,
-				87D435AACF97B602FD8BE74F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -251,11 +253,11 @@
 				TargetAttributes = {
 					64B8010D1FA398D7004A6EEE = {
 						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					64B8012E1FA3A50A004A6EEE = {
 						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -295,6 +297,7 @@
 				647DF4D11FB37E290002039D /* trakt_authentication_accesstoken_wrong.json in Resources */,
 				4F3EA3FD203FDA3F008AE053 /* trakt_sync_addtohistory.json in Resources */,
 				647DF4D51FB382AB0002039D /* trakt_sync_watched_shows.json in Resources */,
+				4F095D3C20D5E50A00A0213F /* trakt_sync_history.json in Resources */,
 				64B8013B1FA3A510004A6EEE /* trakt_shows_watchedprogress.json in Resources */,
 				64B8013A1FA3A510004A6EEE /* trakt_shows_trending.json in Resources */,
 				64B801391FA3A510004A6EEE /* trakt_shows_summary.json in Resources */,
@@ -354,21 +357,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		87D435AACF97B602FD8BE74F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -510,7 +498,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
@@ -520,6 +508,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.pietrocaselani.TraktTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 4.0;
@@ -542,7 +531,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -551,6 +540,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.pietrocaselani.TraktTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
 			};
@@ -571,7 +561,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
@@ -581,6 +571,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.pietrocaselani.TraktTestsResources;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -602,7 +593,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -611,6 +602,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.pietrocaselani.TraktTestsResources;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;

@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', '1.4.0'
-gem 'slather', '2.4.3'
-gem 'fastlane', '2.85.0'
+gem 'cocoapods', '1.5.3'
+gem 'slather', '2.4.5'
+gem 'fastlane', '2.97.0'
