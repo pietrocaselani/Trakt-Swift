@@ -17,7 +17,7 @@ extension Sync: TraktType {
     case .removeFromHistory:
       return "/sync/history/remove"
 		case .history(let parameters):
-      var path = "/history"
+      var path = "sync/history"
 
       guard let params = parameters else {
         return path
