@@ -10,7 +10,8 @@ public struct SyncMovie: Codable {
 		case ratedAt = "rated_at"
 	}
 
-	public init(ids: MovieIds, watchedAt: Date?, collectedAt: Date?, ratedAt: Date?, rating: Rating?) {
+	public init(ids: MovieIds, watchedAt: Date? = nil, collectedAt: Date? = nil,
+              ratedAt: Date? = nil, rating: Rating? = nil) {
 		self.ids = ids
 		self.watchedAt = watchedAt
 		self.collectedAt = collectedAt
