@@ -119,7 +119,7 @@ public class Trakt {
 	}
 
 	private func createEndpointClosure<T: TraktType>(forTarget: T.Type) -> MoyaProvider<T>.EndpointClosure {
-		let endpointClosure = { (target: T) -> Endpoint<T> in
+		let endpointClosure = { (target: T) -> Endpoint in
 			let endpoint = MoyaProvider.defaultEndpointMapping(for: target)
 
 			let traktHeaders = [Trakt.headerContentType: Trakt.contentTypeJSON,
@@ -133,8 +133,8 @@ public class Trakt {
 	}
 
 	private func createRequestClosure<T: TraktType>(forTarget target: T.Type) -> MoyaProvider<T>.RequestClosure {
-		let requestClosure = { [unowned self] (endpoint: Endpoint<T>, done: @escaping MoyaProvider.RequestResultClosure) in
-			self.interceptors.forEach { $0.intercept(endpoint: endpoint, done: done) }
+		let requestClosure = { [unowned self] (endpoint: Endpoint, done: @escaping MoyaProvider.RequestResultClosure) in
+			self.interceptors.forEach { $0.intercept(target: target, endpoint: endpoint, done: done) }
 		}
 
 		return requestClosure
