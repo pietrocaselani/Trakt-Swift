@@ -77,7 +77,7 @@
 		64FA445B1FBB123600BB71E6 /* TestableDateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestableDateProvider.swift; sourceTree = "<group>"; };
 		6C2EFBF92968B79F8E47C777 /* Pods-TraktTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraktTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests.release.xcconfig"; sourceTree = "<group>"; };
 		C9204B814150B31DFB49F5FB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		D5F399452A9E5AF02591717A /* Trakt.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Trakt.podspec; path = ../Trakt.podspec; sourceTree = "<group>"; };
+		D5F399452A9E5AF02591717A /* Trakt.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Trakt.podspec; path = ../Trakt.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		D9DB8D400A394FB439F5D4AD /* Pods-Trakt_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trakt_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trakt_Example/Pods-Trakt_Example.release.xcconfig"; sourceTree = "<group>"; };
 		ED51B2F09F77F336BCAD9292 /* Pods_Trakt_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trakt_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5BB5161DE48358C2D53AE51 /* Pods_TraktTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TraktTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,6 +213,7 @@
 				64B8010B1FA398D7004A6EEE /* Frameworks */,
 				64B8010C1FA398D7004A6EEE /* Resources */,
 				6666CE758929F40F08CF9E13 /* [CP] Embed Pods Frameworks */,
+				7565344FA828D4D4A73DA507 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -357,6 +358,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7565344FA828D4D4A73DA507 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

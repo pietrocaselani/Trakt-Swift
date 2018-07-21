@@ -8,7 +8,7 @@ final class TraktTokenInterceptor: RequestInterceptor {
 		self.trakt = trakt
 	}
 
-	func intercept<T>(endpoint: Endpoint<T>, done: @escaping MoyaProvider<T>.RequestResultClosure) where T: TraktType {
+	func intercept<T>(target: T.Type, endpoint: Endpoint, done: @escaping MoyaProvider<T>.RequestResultClosure) where T : TraktType {
 		guard let trakt = self.trakt else {
 			done(.failure(MoyaError.requestMapping(endpoint.url)))
 			return

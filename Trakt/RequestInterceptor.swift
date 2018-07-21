@@ -1,5 +1,5 @@
 import Moya
 
 public protocol RequestInterceptor {
-	func intercept<T: TraktType>(endpoint: Endpoint<T>, done: @escaping MoyaProvider<T>.RequestResultClosure)
+	func intercept<T: TraktType>(target: T.Type, endpoint: Endpoint, done: @escaping MoyaProvider<T>.RequestResultClosure)
 }

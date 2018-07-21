@@ -47,7 +47,7 @@ final class TraktTokenInterceptorTests: XCTestCase {
 		                          scope: "public")
 
 		//When
-		interceptor.intercept(endpoint: endpoint) { _ in
+		interceptor.intercept(target: Shows.self, endpoint: endpoint) { _ in
 			//Then
 			resultExpectation.fulfill()
 			XCTAssertNotNil(trakt.accessToken)
@@ -84,7 +84,7 @@ final class TraktTokenInterceptorTests: XCTestCase {
 		                          scope: "public")
 
 		//When
-		interceptor.intercept(endpoint: endpoint) { _ in
+		interceptor.intercept(target: Shows.self, endpoint: endpoint) { _ in
 			//Then
 			resultExpectation.fulfill()
 			XCTAssertNotNil(trakt.accessToken)
@@ -114,7 +114,7 @@ final class TraktTokenInterceptorTests: XCTestCase {
 		let resultExpectation = expectation(description: "expect to have a token on trakt")
 
 		//When
-		interceptor.intercept(endpoint: endpoint) { _ in
+		interceptor.intercept(target: Shows.self, endpoint: endpoint) { _ in
 			//Then
 			resultExpectation.fulfill()
 			XCTAssertNil(trakt.accessToken)
