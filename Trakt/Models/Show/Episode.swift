@@ -20,7 +20,7 @@ public final class Episode: StandardMediaEntity {
     self.season = try container.decode(Int.self, forKey: .season)
     self.number = try container.decode(Int.self, forKey: .number)
     self.ids = try container.decode(EpisodeIds.self, forKey: .ids)
-    self.absoluteNumber = try container.decodeIfPresent(Int.self, forKey: .season)
+    self.absoluteNumber = try container.decodeIfPresent(Int.self, forKey: .absoluteNumber)
     self.runtime = try container.decodeIfPresent(Int.self, forKey: .season)
 
     let firstAired = try container.decodeIfPresent(String.self, forKey: .firstAired)
