@@ -8,6 +8,13 @@ public final class SeasonIds: Codable, Hashable {
 		case tvdb, tmdb, trakt, tvrage
 	}
 
+  public init(tvdb: Int?, tmdb: Int?, trakt: Int, tvrage: Int?) {
+    self.tvdb = tvdb
+    self.tmdb = tmdb
+    self.trakt = trakt
+    self.tvrage = tvrage
+  }
+
 	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
