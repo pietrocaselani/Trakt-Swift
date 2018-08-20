@@ -14,6 +14,18 @@ public final class Episode: StandardMediaEntity {
     case firstAired = "first_aired"
   }
 
+  public init(season: Int, number: Int, ids: EpisodeIds, absoluteNumber: Int?, firstAired: Date?, runtime: Int?,
+              title: String?, overview: String?, rating: Double?, votes: Int?, updatedAt: Date?, translations: [String]?) {
+    self.season = season
+    self.number = number
+    self.ids = ids
+    self.absoluteNumber = absoluteNumber
+    self.firstAired = firstAired
+    self.runtime = runtime
+    super.init(title: title, overview: overview, rating: rating, votes: votes,
+               updatedAt: updatedAt, translations: translations)
+  }
+
   public required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 

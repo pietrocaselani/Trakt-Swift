@@ -7,9 +7,10 @@ public final class Season: Codable, Hashable {
   public let episodeCount: Int?
   public let airedEpisodes: Int?
   public let episodes: [Episode]?
+  public let title: String?
 
 	private enum CodingKeys: String, CodingKey {
-		case number, ids, overview, rating, votes, episodes
+		case number, ids, overview, rating, votes, episodes, title
 		case episodeCount = "episode_count"
 		case airedEpisodes = "aired_episodes"
 	}
@@ -25,6 +26,7 @@ public final class Season: Codable, Hashable {
 		self.episodeCount = try container.decodeIfPresent(Int.self, forKey: .episodeCount)
 		self.airedEpisodes = try container.decodeIfPresent(Int.self, forKey: .airedEpisodes)
 		self.episodes = try container.decodeIfPresent([Episode].self, forKey: .episodes)
+    self.title = try container.decodeIfPresent(String.self, forKey: .title)
 	}
 
   public var hashValue: Int {
@@ -48,6 +50,10 @@ public final class Season: Codable, Hashable {
 
     if let airedEpisodesHash = airedEpisodes?.hashValue {
       hash = hash ^ airedEpisodesHash
+    }
+
+    if let titleHash = title?.hashValue {
+      hash = hash ^ titleHash
     }
 
     episodes?.forEach { hash = hash ^ $0.hashValue }

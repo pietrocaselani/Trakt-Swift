@@ -15,6 +15,15 @@ public class StandardMediaEntity: Codable, Hashable {
 		case translations = "available_translations"
 	}
 
+  public init(title: String?, overview: String?, rating: Double?, votes: Int?, updatedAt: Date?, translations: [String]?) {
+    self.title = title
+    self.overview = overview
+    self.rating = rating
+    self.votes = votes
+    self.updatedAt = updatedAt
+    self.translations = translations
+  }
+
 	public required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
