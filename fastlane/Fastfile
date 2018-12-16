@@ -14,7 +14,6 @@ end
 desc 'Run all tests and linters'
 lane :lint do
   tests
-  pod_lib_lint(allow_warnings: true, verbose: false)
   slather(cobertura_xml: true,
           travis: true,
           scheme: 'TraktTests',
