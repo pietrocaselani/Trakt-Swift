@@ -67,7 +67,9 @@ public class Trakt {
 
 		interceptors.append(TraktTokenInterceptor(trakt: self))
 
-		plugins.append(AccessTokenPlugin(tokenClosure: self.accessToken?.accessToken ?? ""))
+        plugins.append(AccessTokenPlugin { [weak self] () -> String in
+            self?.accessToken?.accessToken ?? ""
+        })
 	}
 
 	public final func finishesAuthentication(with request: URLRequest) -> Single<AuthenticationResult> {

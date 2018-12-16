@@ -7,7 +7,7 @@ public enum Seasons {
 extension Seasons: TraktType {
   public var path: String {
     switch self {
-    case .summary(let showId, let _):
+    case .summary(let showId, _):
       return "/shows/\(showId)/seasons"
     }
   }
