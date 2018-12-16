@@ -1,32 +1,32 @@
 lane :pods do
-	cocoapods(podfile: "Example/", repo_update: true)
+  cocoapods(podfile: 'Example/', repo_update: true)
 end
 
 lane :tests do
-	pods
-	scan(workspace: "Example/Trakt.xcworkspace",
-		scheme: "TraktTests",
-		clean: false,
-		code_coverage: true,
-		output_directory: "./reports/")
+  pods
+  scan(workspace: 'Example/Trakt.xcworkspace',
+       scheme: 'TraktTests',
+       clean: false,
+       code_coverage: true,
+       output_directory: './reports/')
 end
 
-desc "Run all tests and linters"
+desc 'Run all tests and linters'
 lane :lint do
-	tests
-	pod_lib_lint(allow_warnings: true, verbose: false)
-	slather(cobertura_xml: true,
-			travis: true,
-			scheme: "TraktTests",
-			output_directory: "./reports",
-			verbose: true,
-			proj: "Example/Trakt.xcodeproj",
-			workspace: "Example/Trakt.xcworkspace")
-    swiftlint(output_file: "./reports/swiftlint.txt", ignore_exit_status: true)
+  tests
+  pod_lib_lint(allow_warnings: true, verbose: false)
+  slather(cobertura_xml: true,
+          travis: true,
+          scheme: 'TraktTests',
+          output_directory: './reports',
+          verbose: true,
+          proj: 'Example/Trakt.xcodeproj',
+          workspace: 'Example/Trakt.xcworkspace')
+  swiftlint(output_file: './reports/swiftlint.txt', ignore_exit_status: true)
 end
 
-desc "Run all tests and linters then upload metrics to sonar"
+desc 'Run all tests and linters then upload metrics to sonar'
 lane :upload_sonar do
-	lint
-	sonar(sonar_login: ENV["SONAR_LOGIN"])
+  lint
+  sonar(sonar_login: ENV['SONAR_LOGIN'])
 end
