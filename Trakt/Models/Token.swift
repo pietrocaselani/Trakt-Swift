@@ -70,12 +70,8 @@ public final class Token: NSObject, Codable, NSCoding {
   }
 
   public override var hash: Int {
-    return self.hashValue
-  }
-
-  public override var hashValue: Int {
-    let hash = accessToken.hashValue ^ expiresIn.hashValue ^ refreshToken.hashValue
-    return hash ^ tokenType.hashValue ^ scope.hashValue
+    return accessToken.hashValue ^ expiresIn.hashValue ^
+        refreshToken.hashValue ^ tokenType.hashValue ^ scope.hashValue
   }
 
   public static func == (lhs: Token, rhs: Token) -> Bool {

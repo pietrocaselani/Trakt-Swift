@@ -14,13 +14,25 @@ public final class Episode: StandardMediaEntity {
     case firstAired = "first_aired"
   }
 
+  public init(season: Int, number: Int, ids: EpisodeIds, absoluteNumber: Int?, firstAired: Date?, runtime: Int?,
+              title: String?, overview: String?, rating: Double?, votes: Int?, updatedAt: Date?, translations: [String]?) {
+    self.season = season
+    self.number = number
+    self.ids = ids
+    self.absoluteNumber = absoluteNumber
+    self.firstAired = firstAired
+    self.runtime = runtime
+    super.init(title: title, overview: overview, rating: rating, votes: votes,
+               updatedAt: updatedAt, translations: translations)
+  }
+
   public required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     self.season = try container.decode(Int.self, forKey: .season)
     self.number = try container.decode(Int.self, forKey: .number)
     self.ids = try container.decode(EpisodeIds.self, forKey: .ids)
-    self.absoluteNumber = try container.decodeIfPresent(Int.self, forKey: .season)
+    self.absoluteNumber = try container.decodeIfPresent(Int.self, forKey: .absoluteNumber)
     self.runtime = try container.decodeIfPresent(Int.self, forKey: .season)
 
     let firstAired = try container.decodeIfPresent(String.self, forKey: .firstAired)
