@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TRAVIS_BRANCH" = "master" ]; then
+if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo "Running master.sh"
     ./ci/master.sh
 else
