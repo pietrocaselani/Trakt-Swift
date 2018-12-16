@@ -27,5 +27,4 @@ end
 desc 'Run all tests and linters then upload metrics to sonar'
 lane :upload_sonar do
   lint
-  sonar(sonar_login: ENV['SONAR_LOGIN'])
 end
