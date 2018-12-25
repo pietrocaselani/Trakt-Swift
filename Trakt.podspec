@@ -33,5 +33,5 @@ Pod::Spec.new do |s|
   s.source_files = 'Trakt/**/*'
 
   s.dependency 'Moya/RxSwift', '12.0.1'
-  s.dependency 'SwiftLint', '0.25.1'
+  s.dependency 'SwiftLint', '0.29.2'
 end
