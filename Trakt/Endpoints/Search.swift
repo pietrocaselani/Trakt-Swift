@@ -33,7 +33,9 @@ extension Search: TraktType {
   public var sampleData: Data {
     let fileName: String
 
-    if case .textQuery = self {
+    if case let .textQuery(_, query, _, _) = self {
+      guard query != "empty" else { return "[]".data(using: .utf8)! }
+
       fileName = "trakt_search_textquery"
     } else {
       fileName = "search_idlookup"
