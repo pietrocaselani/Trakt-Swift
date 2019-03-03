@@ -1,9 +1,12 @@
 use_frameworks!
 platform :osx, '10.13'
 
+RX_SWIFT_VERSION = '4.4.1'.freeze
+
 target 'TraktTests' do
   inherit! :search_paths
 
-  pod 'RxTest', '4.4.0'
+  pod 'RxTest', RX_SWIFT_VERSION
+  pod 'RxSwift', RX_SWIFT_VERSION
   pod 'Trakt', path: '../'
 end

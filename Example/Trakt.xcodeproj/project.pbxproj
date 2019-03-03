@@ -326,7 +326,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TraktTests/Pods-TraktTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
@@ -347,7 +347,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TraktTests/Pods-TraktTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TraktTests/Pods-TraktTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6D3671F2B379BE7C8663CAD9 /* [CP] Check Pods Manifest.lock */ = {
