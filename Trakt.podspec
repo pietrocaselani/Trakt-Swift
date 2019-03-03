@@ -17,15 +17,15 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = "A Swift library for Trakt v2 API using Moya and facilitating OAuth"
+  s.description      = 'A Swift library for Trakt v2 API using Moya and facilitating OAuth'
 
   s.homepage         = 'https://github.com/pietrocaselani/Trakt-Swift'
-  s.license          = { :type => 'UNLICENSE', :file => 'UNLICENSE' }
+  s.license          = { type: 'UNLICENSE', file: 'UNLICENSE' }
   s.author           = { 'Pietro Caselani' => 'pc1992@gmail.com' }
-  s.source           = { :git => 'https://github.com/pietrocaselani/Trakt-Swift.git', :tag => s.version.to_s }
+  s.source           = { git: 'https://github.com/pietrocaselani/Trakt-Swift.git', tag: s.version.to_s }
   s.social_media_url = 'https://twitter.com/pietropc_'
   s.module_name      = 'TraktSwift'
-  s.swift_version    = '4.1'
+  s.swift_version    = '4.2'
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'

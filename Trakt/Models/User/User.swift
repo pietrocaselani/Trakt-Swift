@@ -1,4 +1,4 @@
-public final class User: Codable, Hashable {
+public struct User: Codable, Hashable {
   public let username: String
   public let isPrivate: Bool
   public let name: String
@@ -19,7 +19,7 @@ public final class User: Codable, Hashable {
 		case isPrivate = "private"
 	}
 
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.username = try container.decode(String.self, forKey: .username)
@@ -43,13 +43,22 @@ public final class User: Codable, Hashable {
 		self.joinedAt = joinedAtDate
 	}
 
-  public var hashValue: Int {
-    var hash = username.hashValue ^ isPrivate.hashValue ^ name.hashValue ^ vip.hashValue ^ vipExecuteProducer.hashValue
-    hash ^= ids.hashValue ^ joinedAt.hashValue ^ location.hashValue ^ about.hashValue ^ gender.hashValue
-    return hash ^ age.hashValue ^ images.hashValue
-  }
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
 
-  public static func == (lhs: User, rhs: User) -> Bool {
-    return lhs.hashValue == rhs.hashValue
+    try container.encode(self.username, forKey: .username)
+    try container.encode(self.isPrivate, forKey: .isPrivate)
+    try container.encode(self.name, forKey: .name)
+    try container.encode(self.vip, forKey: .vip)
+    try container.encode(self.vipExecuteProducer, forKey: .vipExecuteProducer)
+    try container.encode(self.ids, forKey: .ids)
+    try container.encode(self.location, forKey: .location)
+    try container.encode(self.about, forKey: .about)
+    try container.encode(self.gender, forKey: .gender)
+    try container.encode(self.age, forKey: .age)
+    try container.encode(self.images, forKey: .images)
+
+    let joinedAtJSON = TraktDateTransformer.dateTimeTransformer.transformToJSON(self.joinedAt)
+    try container.encode(joinedAtJSON, forKey: .joinedAt)
   }
 }
